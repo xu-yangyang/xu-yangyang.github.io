@@ -1,0 +1,36 @@
+# jemdoc: menu{MENU}{index.html}, backlink, notime, analytics{UA-3247448-7}
+= TMac: /T/ensor completion by parallel /M/atrix f/ac/torization
+/[http://www.caam.rice.edu/~yx9/ Yangyang Xu], Ruru Hao, [http://www.math.ucla.edu/~wotaoyin/ Wotao Yin], and Zhixun Su/
+
+== Background
+Higher-order low-rank tensors with missing values naturally arise in many applications including hyperspectral data recovery, video inpainting, seismic data reconstruction, and so on. These problems can be formulated as low-rank tensor completion (LRTC). Existing methods$^{[1, 2]}$ for LRTC employ matrix nuclear-norm minimization and use the singular value decomposition (SVD) in their algorithms, which become very slow or even not applicable for large-scale problems. To tackle this difficulty, we apply low-rank matrix factorization to each mode unfolding of the tensor in order to enforce low-rankness and update the matrix factors alternatively, which is computationally much cheaper than SVD.
+
+== Our method
+We aim at recovering a low-rank tensor $\mathbf{\mathcal{M}}\in\mathbf{R}^{I_1\times\ldots\times I_N}$ from partial observations $\mathbf{\mathcal{B}}=\mathcal{P}_\Omega(\mathbf{\mathcal{M}})$, where $\Omega$ is the index set of observed entries, and $\mathcal{P}_\Omega$ keeps the entries in $\Omega$ and zeros out others. We  apply low-rank matrix factorization to each mode unfolding of $\mathbf{\mathcal{M}}$ by finding matrices $\mathbf{X}_n\in\mathbf{R}^{I_n\times r_n},\mathbf{Y}_n\in \mathbf{R}^{r_n\times\Pi_{j\neq n}I_j}$ such that $\mathbf{M}_{(n)}\approx\mathbf{X}_n\mathbf{Y}_n$ for $n=1,\ldots,N$, where $r_n$ is the estimated rank, either fixed or adaptively updated. Introducing one common variable $\mathbf{\mathcal{Z}}$ to relate these matrix factorizations, we solve the following model
+\(\mathop{\mathrm{minimize}}_{\mathbf{X},\mathbf{Y},\mathbf{\mathcal{Z}}}\sum_{n=1}^N\frac{\alpha_n}{2}\|\mathbf{X}_n\mathbf{Y}_n-\mathbf{Z}_{(n)}\|_F^2,\mathrm{s.t.}\ \mathcal{P}_\Omega(\mathbf{\mathcal{Z}})=\mathbf{\mathcal{B}},
+\)
+where $\mathbf{X}=(\mathbf{X}_1,\ldots,\mathbf{X}_N)$ and $\mathbf{Y}=(\mathbf{Y}_1,\ldots,\mathbf{Y}_N)$. In the model, $\alpha_n$, $n=1,\ldots,N$, are weights and satisfy $\sum_n\alpha_n=1$. 
+We use alternating least squares method to solve the model. 
+
+== Results
+
+Our model is non-convex jointly with respect to $\mathbf{X},\mathbf{Y}$ and $\mathcal{Z}$. Although a global solution is not guaranteed, we demonstrate by numerical experiments that our algorithm can reliably recover a wide variety of low-rank tensors, such as the following phase transition plots. In the picture, each target tensor $\mathcal{M}=\mathcal{C}\times_1\mathbf{A}_1\times_2\mathbf{A}_2\times_3\mathbf{A}_3$, where $\mathcal{C}\in\mathbf{R}^{r\times r\times r}$ and $\mathbf{A}_n\in\mathbf{R}^{50\times r}, \forall n$ have Gaussian random entries. (a) FaLRTC: the tensor completion method in $[2]$.
+(b) MatComp: first reshape the tensor as a matrix and then use the matrix completion solver LMaFit in $[3]$. (c) TMac-fix: our method with $\alpha_n=\frac{1}{3}$ and $r_n$ fixed to $r, \forall n$. (d) TMac-inc: our method with $\alpha_n=\frac{1}{3}$ and using rank-increasing strategy starting from $r_n = \mathrm{round}(0.75r),\forall n$. (e) TMac-dec: our method with$\alpha_n=\frac{1}{3}$ and using rank-decreasing strategy starting from $r_n = \mathrm{round}(1.25r),\forall n$.
+
+The results show that our method performs much better than the other two methods.
+
+~~~
+{}{img_center}{phasePlot.png}{}{850}{}
+~~~
+
+=== More results can be found in the [http://arxiv.org/pdf/1312.1254.pdf preprint]
+
+== Citation
+/Y. Xu, R. Hao, W. Yin, and Z. Su/. Parallel matrix factorization for low-rank tensor completion [http://arxiv.org/pdf/1312.1254.pdf (PDF)]
+
+== References
+$[1]$  S. Gandy, B. Recht, and I. Yamada, Tensor completion and low-$n$-rank tensor recovery via convex optimization, Inverse Problems, 27(2011), p. 025010.
+
+$[2]$ J. Liu, P. Musialski, P. Wonka, and Jieping Ye, Tensor completion for estimating missing values in visual data, IEEE Transactions on Pattern Analysis and Machine Intelligence, (2013), pp. 208-220.
+
+$[3]$  Z. Wen, W. Yin, and Y. Zhang, Solving a low-rank factorization model for matrix completion by a nonlinear successive over-relaxation algorithm, Mathematical Programming Computation, (2012), pp. 1-29.

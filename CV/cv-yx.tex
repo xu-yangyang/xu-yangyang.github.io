@@ -1,0 +1,283 @@
+% LaTeX Curriculum Vitae Template
+%
+% Copyright (C) 2004-2009 Jason Blevins <jrblevin@sdf.lonestar.org>
+% http://jblevins.org/projects/cv-template/
+%
+% You may use use this document as a template to create your own CV
+% and you may redistribute the source code freely. No attribution is
+% required in any resulting documents. I do ask that you please leave
+% this notice and the above URL in the source code if you choose to
+% redistribute this file.
+
+\documentclass[letterpaper]{article}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{etaremune}
+
+% Comment the following lines to use the default Computer Modern font
+% instead of the Palatino font provided by the mathpazo package.
+% Remove the 'osf' bit if you don't like the old style figures.
+\usepackage[T1]{fontenc}
+\usepackage[sc,osf]{mathpazo}
+
+% Set your name here
+\def\name{Yangyang Xu}
+
+% Replace this with a link to your CV if you like, or set it empty
+% (as in \def\footerlink{}) to remove the link in the footer:
+\def\footerlink{}
+
+% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {economics, statistics, mathematics},
+  pdftitle = {\name: Curriculum Vitae},
+  pdfsubject = {Curriculum Vitae},
+  pdfpagemode = UseNone
+}
+
+\geometry{
+  body={6.5in, 8.5in},
+  left=1.0in,
+  top=1 in
+}
+
+% Customize page headers
+\pagestyle{myheadings}
+\markright{\name: Curriculum Vitae}
+\thispagestyle{empty}
+
+% Custom section fonts
+\usepackage{sectsty}
+\sectionfont{\rmfamily\mdseries\scshape\large}
+\subsectionfont{\rmfamily\mdseries\itshape\large}
+
+% Other possible font commands include:
+% \ttfamily for teletype,
+% \sffamily for sans serif,
+% \bfseries for bold,
+% \scshape for small caps,
+% \normalsize, \large, \Large, \LARGE sizes.
+
+% Don't indent paragraphs.
+\setlength\parindent{0em}
+
+% Make lists without bullets
+\renewenvironment{itemize}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+  }
+}{
+  \end{list}
+}
+
+\begin{document}
+
+% Place name at left
+{\Large \name}
+
+% Alternatively, print name centered and bold:
+%\centerline{\Large \name}
+
+\vspace{0.25in}
+
+\begin{minipage}{0.99\linewidth}  
+313B Gordon Palmer Hall   \\
+\href{http://math.ua.edu}{Department of Mathematics}, \href{http://ua.edu/}{University of Alabama} \\
+Box 870350, Tuscaloosa, AL 35487\\[0.2cm]
+Email:  \href{mailto:yxu76@ua.edu}{\tt yxu76@ua.edu} \\
+     Office Phone:  (+1)205-348-1975
+\end{minipage}
+%\begin{minipage}{0.45\linewidth}
+  %\begin{tabular}{ll}
+  
+%Homepage: & \href{http://www.ima.umn.edu/~yangyang/}{\tt www.ima.umn.edu/$\sim$yangyang/} \\
+    %Fax: &  (919) 962-5678 \\
+    
+  %\end{tabular}
+%\end{minipage}
+\hrule
+
+
+\section*{Education}
+
+\begin{minipage}{1\linewidth}
+\begin{tabular}{ll}
+\textbf{Rice University}, Houston, TX, USA. & \\
+~~~~ Ph.D. in Computational and Applied Mathematics  &~~~~~~~~~~~~~~~~~~~~~~~~2014\\
+~~~~ Thesis: ``Block coordinate update method in tensor optimization'' &\\
+%~~~~ GPA: 4.09/4.30  & \\
+~~~~ Advisor: Professor \href{http://www.math.ucla.edu/~wotaoyin/}{Wotao Yin} &\\[0.1cm]
+
+\textbf{Chinese Academy of Sciences}, Beijing, China.\\
+~~~~ M.S. in Operations Research &~~~~~~~~~~~~~~~~~~~~~~~~2010\\
+~~~~ Thesis: ``On complexity of multi-task $n$-vehicle exploration problem.''& \\
+%~~~~ GPA: 91/100& \\
+~~~~ Advisor: Professor Jinchuan Cui &\\[0.1cm]
+
+\textbf{Nanjing University}, Nanjing, China.& \\
+~~~~ B.S. in Computational Mathematics  & ~~~~~~~~~~~~~~~~~~~~~~~~2007\\
+%~~~~ GPA: 91/100, Ranking: 1/88 & \\
+\end{tabular}
+\end{minipage}
+
+\section*{Employment}
+
+%\subsection*{Rice University}
+\begin{minipage}{1\linewidth}
+\begin{tabular}{lc}
+\textbf{University of Alabama, Tuscaloosa}&\\
+~~~~ Assistant professor & Aug. 2016 --\\
+\textbf{University of Minnesota, Twin Cities}&\\
+~~~~ Postdoctoral fellow & \hfill Sep. 2015 -- Aug. 2016\\
+~~~~ Mentor: Professor \href{http://www.menet.umn.edu/~zhangs/}{Shuzhong Zhang} &\\[0.1cm]
+\textbf{University of Waterloo}&\\
+~~~~ Postdoctoral fellow & \hfill Aug. 2014 -- Aug. 2015\\
+~~~~ Advisors: Professors \href{http://www.math.uwaterloo.ca/~vavasis/}{Stephen Vavasis} and \href{http://www.math.uwaterloo.ca/~hwolkowi/}{Henry Wolkowicz} &\\[0.1cm]
+%\textbf{Rice University} & \\
+%~~~~ TA for CAAM 378: Introduction to Operations Research and Optimization & Fall 2013\\
+%~~~~ TA for CAAM 335: Matrix Analysis & Spring 2013\\[0.1cm]
+\textbf{Siemens Corporate Research} & \\
+~~~~ {Intern}. Mentors: Drs. Ioannis  Akrotirianakis and Amit Chakraborty & Summer 2012 \\
+ \hspace{0.5cm}Developed fast algorithms for binary and multi-class Support Vector Machines &\\
+~~~~ with applications to microarray and texture classifications. & 
+
+\end{tabular}
+\end{minipage}
+
+\section*{Research Interests}
+%\subsection*{Current Focus}
+\begin{itemize}\setlength{\itemsep}{-1pt}
+\item Methodology: large-scale optimization, sparse optimization, stochastic computing, tensor optimization 
+\item Applications: compressed sensing, image processing, machine learning, data mining
+%\item low-rank matrix/tensor recovery, non-negative matrix/tensor factorization
+\end{itemize}
+
+
+\section*{Publication list}
+
+\subsection*{Published or accepted}
+
+%\begin{enumerate}\setlength{\itemsep}{-1.5pt}
+\begin{etaremune}\setlength{\itemsep}{-1.5pt}
+\item Z. Peng, T. Wu, \textbf{Y. Xu}, M. Yan and W. Yin. Coordinate Friendly Structures, Algorithms and applications. \emph{Annals of Mathematical Sciences and Applications}, 1(1), 57--119, 2016.
+\item N. Zhou, \textbf{Y. Xu}, H. Cheng, J. Fang and W. Pedrycz. Global and local structure preserving sparse subspace learning: an iterative approach to unsupervised feature selection. \emph{Pattern Recognition}, 53, pp. 87--101, 2016.
+\item \textbf{Y. Xu} and W. Yin. A fast patch-dictionary method for whole image recovery, \emph{Inverse problems and imaging}, 10(2), 2016.
+\item \textbf{Y. Xu} and W. Yin. Block stochastic gradient iteration for convex and nonconvex optimization, \emph{SIAM Journal on Optimization}, 25(3), 1686--1716, 2015. \href{http://www.ima.umn.edu/~yangyang/papers/BSG.pdf}{[pdf]}
+\item \textbf{Y. Xu}, R. Hao, W. Yin and Z. Su. Parallel matrix factorization for low-rank tensor completion, \emph{Inverse problems and imaging}, 9(2), 601--624, 2015. \href{http://aimsciences.org/journals/pdfs.jsp?paperID=10942&mode=full}{[pdf]}
+\item \textbf{Y. Xu}. Alternating proximal gradient method for sparse nonnegative Tucker decomposition. \emph{Mathematical Programming Computation}, 7(1), 39--70, 2015. \href{http://link.springer.com/article/10.1007/s12532-014-0074-y}{[pdf]}
+\item \textbf{Y. Xu}, I. Akrotirianakis and A. Chakraborty. Proximal gradient method for Huberized support vector machine, \emph{Pattern Analysis and Applications}, 2015. \href{http://link.springer.com/article/10.1007/s10044-015-0485-z}{[pdf]}
+\item \textbf{Y. Xu}, I. Akrotirianakis and A. Chakraborty. Alternating direction method of multiplier for regularized multiclass support vector machines. \emph{Lecture Note in Computer Science}, 2015.
+\item \textbf{Y. Xu}, W. Yin and S. Osher. Learning circulant sensing kernels. \emph{Inverse Problems and Imaging}, 8(3), 901--923, 2014. \href{http://www.aimsciences.org/journals/pdfs.jsp?paperID=10290&mode=full}{[pdf]}
+\item \textbf{Y. Xu} and W. Yin. A block coordinate descent method for multi-convex optimization with applications to nonnegative tensor factorization and completion. \emph{SIAM Journal on Imaging Sciences}, 6(3), 1758--1789, 2013. \href{http://epubs.siam.org/doi/abs/10.1137/120887795}{[pdf]}
+\item M. Lai, \textbf{Y. Xu} and W. Yin. Improved iteratively reweighted least squares for unconstrained smoothed $\ell_q$ minimization. \emph{SIAM Journal on Numerical Analysis}, 51(2), pp. 927--957, 2013.
+\href{http://epubs.siam.org/doi/abs/10.1137/110840364}{[pdf]}
+\item (Conference) Q. Ling, \textbf{Y. Xu}, W. Yin and Z. Wen. Decentralized low-rank matrix completion, {\em IEEE International Conference on Acoustics, Speech and Signal Processing} (ICASSP), pp. 2925--2928, 2012.
+\href{http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=6288528&url=http%3A%2F%2
+Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6288528}{[pdf]}
+\item \textbf{Y. Xu} and J. Cui. Multi-task $n$-vehicle exploration problem: complexity and algorithms. \emph{Journal of Systems Science and Complexity}, pp. 1080--1092, 2012.
+%\item \textbf{Y. Xu} and J. Cui. A variant of multi-task $n$-vehicle exploration problem: maximizing every processor's average profit. {\em Acta Mathematicae Applicatae Sinica, English Series (Springer)}, 2012, pp. 463--474.
+\item \textbf{Y. Xu}, W. Yin, Z. Wen and Y. Zhang. An alternating direction algorithm for matrix completion with nonnegative factors. {\em Journal of Frontiers of Mathematics in China, Special Issues on Computational Mathematics (Springer)}, 2011, pp. 365--384. \href{http://link.springer.com/article/10.1007/s11464-012-0194-5}{[pdf]}
+\end{etaremune}
+%\end{enumerate}
+
+\subsection*{Under review}
+\begin{enumerate}\setlength{\itemsep}{-1.5pt}
+\item D. Oliveira, H. Wolkowicz and \textbf{Y. Xu}. ADMM for the SDP relaxation of the QAP. Submitted.
+\item Z. Peng, \textbf{Y. Xu}, M. Yan and W. Yin. ARock: an algorithmic framework for asynchronous parallel coordinate updates. Submitted. \href{http://xxx.tau.ac.il/pdf/1506.02396v1.pdf}{[pdf]}
+\item \textbf{Y. Xu}. On the convergence of higher-order orthogonality iteration. Submitted. \href{http://arxiv.org/pdf/1504.00538v1}{[pdf]}
+\item \textbf{Y. Xu}. On higher-order singular value decomposition from incomplete data. Submitted.
+\item \textbf{Y. Xu} and W. Yin. A globally convergent algorithm for nonconvex optimization based on block coordinate update. Submitted.
+\href{ftp://ftp.math.ucla.edu/pub/camreport/cam13-38.pdf}{[pdf]}
+\item J. Shi, \textbf{Y. Xu} and R. Baraniuk. Sparse bilinear logistic regression. Submitted.
+\end{enumerate}
+
+\section*{Computer Skills}
+\begin{itemize}
+\item MATLAB, C/C++, MPI, distributed/parallel computing, R, UNIX/Linux
+\end{itemize}
+~~~~\textbf{Software packages}
+\begin{itemize}\setlength{\itemsep}{-1pt}
+\item \href{http://www.math.ucla.edu/~wotaoyin/papers/tmac.html}{Tensor completion by parallel matrix factorization}
+\item \href{http://www.math.ucla.edu/~wotaoyin/papers/bcu/}{Block-coordinate update for matrix and tensor factorization}
+\item \href{http://www.caam.rice.edu/~optimization/circulant/}{Learning circulant kernels}
+\end{itemize}
+
+
+\section*{Invited talks}
+\begin{itemize}
+\setlength{\itemsep}{-0.5pt}
+\item Block stochastic gradient update method. INFORMS Annual Meeting. Philadelphia, PA, Nov. 1--4, 2015.
+\item On the convergence of higher-order orthogonality iteration and its extension. SIAM Conference on Applied Linear Algebra, Atlanta, GA, Oct. 26--30, 2015. 
+\item Compressed higher-order singular value decomposition. \emph{AMMCS-CAIMS Congress}. Wilfrid Laurier University, Waterloo, Cananda, June 7--12, 2015
+\item Low-rank tensor recovery via matrix factorization. \emph{SIAM Conference on CSE}. Salt Lake City, March 14--18, 2015.
+\item Parallel matrix factorization for low-rank tensor completion. \emph{SIAM Conference on Optimization}. San Diego, CA, May 19--22, 2014.
+\item Block coordinate descent in tensor optimization. \emph{Seminar of Department of Mathematics}, National University of Singapore, Feb. 10, 2014.
+\item Block coordinate descent for multi-convex optimization. \emph{14th International Conference on Approximation Theory}. San Antonio, TX, April 7--10, 2013.
+%\item Block coordinate descent for regularized multi-convex optimization, CAAM, Rice University, 10/31/2012.
+\item Decentralized low-rank matrix completion, CAAM Colloquium, Rice University, Nov. 2, 2011.
+\item Matrix completion with nonnegative factors, Math Colloquium, Shanghai Jiaotong University, Aug. 17, 2011.
+\end{itemize}
+
+\section*{Professional activities}
+\textbf{Session Organizer}
+\begin{itemize}\setlength{\itemsep}{-1.5pt}
+\item SIAM Conference on Optimization, San Diego, CA, May 19--22, 2014
+\item INFORMS Optimization Society Conference, Houston, TX, March 6--8, 2014
+\end{itemize}
+%\begin{minipage}{1\linewidth}
+%\begin{tabular}{ll}
+\textbf{Journal Referee} 
+\begin{itemize}\setlength{\itemsep}{-1.5pt}
+\item SIAM Journal on Imaging Sciences
+\item SIAM Journal on Optimization 
+\item SIAM Journal on Scientific Computing
+\item Mathematical Programming
+\item Applied Mathematics and Computation
+\item Computational Optimization and Applications
+\item Journal of Machine Learning Research
+\item Journal of Computational Mathematics
+\item Journal of Global Optimization
+\item Journal of Mathematical Imaging and Vision
+\item Journal of Operations Research Society of China
+\item Journal of Optimization Theory and Application
+\item Journal of Scientific Computing 
+\item IEEE Signal Processing
+\item IEEE Neural Network and Learning System
+%\end{tabular}
+\end{itemize}
+%\end{minipage}
+
+
+\section*{Honors and Awards}
+\begin{itemize}\setlength{\itemsep}{-1.5pt}
+\item Alan Weiser Memorial Travel Award, Rice University \hfill 2014
+\item Graduate fellowship, {Rice University} \hfill 2010 -- 2011
+\item Championship of the Enterprise Simulation Contest of {Chinese Academy of Sciences} \hfill 2008
+\item First Prize, Scholarship  of {Nanjing University} \hfill 2006
+\item First Prize, National Scholarship of China \hfill 2005
+\item Samsung Scholarship \hfill 2004
+
+\end{itemize}
+
+%\section*{References}
+%\begin{minipage}{1\linewidth}
+%\begin{tabular}{ll}
+%\textbf{Wotao Yin} & Ph.D advisor\\
+%& Professor of Mathematics, UCLA\\
+%&  \href{mailto: wotaoyin@math.ucla.edu}{\tt wotaoyin@math.ucla.edu}\\[0.1cm]
+%\textbf{Stanley Osher} & Professor of Mathematics, UCLA\\
+%& \href{mailto: sjo@math.ucla.edu}{\tt sjo@math.ucla.edu}\\[0.1cm]
+%\textbf{Yin Zhang} & Professor of Computational and Applied Mathematics, Rice University\\
+%& \href{mailto: yzhang@rice.edu}{\tt yzhang@rice.edu}\\[0.1cm]
+%\textbf{Richard Tapia} & Professor of Computational and Applied Mathematics, Rice University\\
+%& \href{mailto: rat@rice.edu}{\tt rat@rice.edu}
+%\end{tabular}
+%\end{minipage}
+
+\bigskip
+
+\end{document}

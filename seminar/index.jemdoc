@@ -1,0 +1,29 @@
+# jemdoc: notime, analytics{UA-61771387-1}
+= Prof. Shuzhong Zhang's group meeting (Spring 2016)
+
+[fall15.html Meeting of Fall 2015]
+
+*Time*: 14:00 - 18:00 on Fridays
+
+*Location*: Akerman Hall 227
+
+=== Participants
+*Organizer*: [http://www.menet.umn.edu/~zhangs/ Shuzhong Zhang] \n
+*Graduate Students*: Xiang Gao, Xiaobo Li, [http://math.umn.edu/~moult040/ Jeff Moulton], Shaozhe Tao, Junyu Zhang\n
+*Postdocs*: [http://www.ima.umn.edu/~yangyang/ Yangyang Xu]\n 
+*Visitors*: Tingqiang Chen, Jianling Li, Xiangong Li, Jianwen Peng, Kameng Nip
+
+=== Schedules
+- Jan. 08: Junyu Zhang. Deep Learning: part I. 
+- Jan. 15. Junyu Zhang. Deep Learning: part II.
+- Feb. 05. Jeff Moulton. Clustering.
+- Feb. 12. Kameng Nip.
+- Feb. 19. Yangyang Xu. Convergence of ADMM on nonconvex optimization. \[[http://www.math.ucla.edu/~wotaoyin/papers/nonconvex_ADMM.html link]\]
+- Feb. 26. Xiang Gao
+- Mar. 4. Junyu Zhang
+- Mar. 11. Junyu Zhang
+- Mar. 25. Shaozhe Tao
+- April 1. Yangyang Xu. Primal-dual splitting methods
+
+=== Reading materials
+Y. Bengio. Learning deep architectures for AI. \[[https://www.iro.umontreal.ca/~lisa/pointeurs/TR1312.pdf pdf]\]

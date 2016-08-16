@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<title>Research Summary</title>
+<!-- wotao: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-61771387-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- wotao: "wrapper" class for new style -->
+<table summary="Table for page layout." id="tlayout">
+<tr valign="top">
+<td id="layout-menu">
+<!-- wotao: added for the "menu-box" style -->
+<div class="menu-box">
+<div class="menu-category">Yangyang Xu</div>
+<div class="menu-item"><a href="index.html">Home</a></div>
+<div class="menu-item"><a href="cv-yx.pdf">Curriculum&nbsp;Vitae</a></div>
+<!-- wotao: added for the "menu-box" style -->
+</div>
+<!-- wotao: added for the "menu-box" style -->
+<div class="menu-box">
+<div class="menu-category">Research</div>
+<div class="menu-item"><a href="research.html" class="current">Summary</a></div>
+<div class="menu-item"><a href="publication.html">Papers</a></div>
+<div class="menu-item"><a href="talks.html">Talks</a></div>
+<div class="menu-item"><a href="software.html">Software</a></div>
+<div class="menu-item"><a href="seminar">Seminar</a></div>
+<!-- wotao: added for the "menu-box" style -->
+</div>
+<!-- wotao: added for the "menu-box" style -->
+<div class="menu-box">
+<div class="menu-category">Teaching</div>
+<div class="menu-item"><a href="uwMath137">Math137&nbsp;UW</a></div>
+<!-- wotao: added for the "menu-box" style -->
+</div>
+</td>
+<td id="layout-content">
+<div id="toptitle">
+<h1>Research Summary</h1>
+</div>
+<p>My research is mainly motivated by &lsquo;&lsquo;big data&rsquo;&rsquo; problems including data reconstruction, data reduction, and data mining. </p>
+<h3><b>Compressed sensing and low-rank matrix / tensor recovery</b></h3>
+<p>For large or huge-scale data, fully acquiring it can be very expensive (e.g., MRI), and to save acquisition time, the data is often partially sampled, or its very few measurements are taken. In some applications (e.g., movie-user rating by Netflix), it is even impossible to acquire the complete data. However, due to special structures (e.g., sparseness, smoothness, and low-rankness) of the data, it can be reliably reconstructed from its incomplete observations or under-determined measurements. </p>
+<h3><b>Regularized matrix and tensor factorization</b></h3>
+<p>Even if a large or huge amount of data is completely acquired, storing all of it is often very expensive and may be wasteful due to possible data redundancy (e.g., face recognition). Data reduction is usually necessary to remove redundancy and maintain principal information. Matrix and tensor factorizations with regularization terms (e.g., nonnegativity, sparsity, orthogonality) are efficient ways for dimensionality reduction and feature extraction.  </p>
+<h3><b>Stochastic optimization</b></h3>
+<p>If the data comes as a stream (e.g., in stochastic programs and online learning), and one wants to learn or extract important features from the data stream, storing all the data and then performing data reduction or mining may be impossible. At any time point, only partial samples of the data can be accessed. Even if one can wait until arrival of all the data and store it, accessing all the data for each update of the variables can be extremely expensive, and thus sampling small amount of the data is still beneficial and more efficient</p>
+</td>
+</tr>
+</table>
+<div id="footer">
+<div id="footer-text">
+generated 2015-09-13, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- wotao: "wrapper" class for new style -->
+</body>
+</html>

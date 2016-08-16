@@ -1,0 +1,13 @@
+# jemdoc: menu{MENU}{software.html}, notime, analytics{UA-61771387-1}
+= Software packages
+
+- [http://www.math.ucla.edu/~wotaoyin/papers/tmac.html *Tensor completion by parallel matrix factorization*]
+- [http://www.caam.rice.edu/~optimization/bcu *Block-coordinate update (BCU)*]
+-- Nonnegative matrix factorization
+-- Nonnegative CP decomposition
+-- Nonnegative Tucker decompistion
+- [http://www.caam.rice.edu/~optimization/circulant *Learning circulant kernels*]
+- [http://mcnf.blogs.rice.edu/ *Matrix completion with nonnegative factors*]
+
+
+

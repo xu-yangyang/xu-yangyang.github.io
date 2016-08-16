@@ -1,0 +1,42 @@
+# jemdoc: backlink, notime, analytics{UA-61771387-1}
+= ADMM for the SDP relaxation of the QAP
+/Danilo E. Oliveira,
+[http://www.math.uwaterloo.ca/~hwolkowi/ Henry Wolkowicz] and
+[http://www.ima.umn.edu/~yangyang/ Yangyang Xu]/
+
+== Background
+The quadratic assignment problem (QAP) is one of the hardest NP-hard discrete optimization problems. The semidefinite programming (SDP) relaxation has proven to be extremely strong for QAP by lifting the variable \[1\]. However, the SDP relaxation for the QAP becomes very large, and traditional methods such as the interior-point method can hardly solve problems of even medium size, say 30.
+
+We reformulate and also strengthen the relaxation model in \[1\] by splitting variables and adding more constraints. Then we employ the alternating direction method of multiplier (ADMM) to solve the strengthened model with or without an additional low-rank constraint. We obtain very sharp lower bound on benchmark datasets within much shorter time compared to the best existing method.
+
+== Notation and our method 
+The QAP problem can be formulated as
+\( \min_{X\in\Pi_n} \langle AXB-2C, X \rangle \)
+where $A$ and $B$ are real symmetric matrices, $C$ is a real matrix, and $\Pi_n$ denotes the set of $n\times n$ permutation matrices. By lifting variable, \[1\] relaxed the original QAP problem into
+\( \min_{R\succeq 0}\ \langle L_Q, \hat{V}R\hat{V}^\top\rangle, ~\mathrm{s.t.}~\mathcal{G}_J(\hat{V}R\hat{V}^\top)=E_{00},
+\)
+where $\mathcal{G}_J$ is a sampling operator (also called gangster operator) picking the elements in the index set $J$, $E_{00}$ is a matrix with all zeros except the top-left one, $\hat{V}$ is a basis matrix (see our [http://arxiv.org/abs/1512.05448 report]), and
+\( L_Q=\left[\begin{array}{cc}0 & -\mathrm{vec}(C)^\top\\-\mathrm{vec}(C) & B\otimes A\end{array}\right].
+\)
+We introduce another variable $Y$ and enforce $Y= \hat{V}R\hat{V}^\top$ and also restrict $0\le Y\le 1$, resulting in the following model
+\( \min_{R, Y}\ \langle L_Q, Y\rangle,\ \mathrm{s.t.}\ Y= \hat{V}R\hat{V}^\top,\ \mathcal{G}_J(Y)=E_{00},\ 0\le Y\le 1,\ R\succeq 0.
+\)
+Then the ADMM method is applied to solve the above model with or without the rank-one constraint $\mathrm{rank}(R)=1$. Due to the introducing of $Y$, every step in the ADMM method has closed form solution, and numerically ADMM is very efficient on solving our problem.
+
+== Numerical results
+We test our method on 45 benchmark QAP instances. Compared to the best existing lower bound (column 2 by Bundle method \[2\]), our method improves the lower bound on every instance. In addition, our method is very fast, in particular when there is a low-rank constraint (column 9).
+
+~~~
+{}{img_center}{table_qap.png}{}{1000}{}{}
+~~~
+
+== Matlab code
+[ADMM_QAP.zip Download the code]
+
+== Citation
+/D. Oliveira, H. Wolkowicz, and Y. Xu/. [http://arxiv.org/abs/1512.05448 ADMM for the SDP relaxation of the QAP]. arXiv1512.05448, 2015.
+
+== References
+$^{[1]}$. Q. Zhao, S.E. Karisch, F. Rendl, and H. Wolkowicz. /Semidefinite programming relaxations for the quadratic assignment problem/, J. Combinatorial Optimization, 2(1): 71--109, 1998.
+
+$^{[2]}$. F. Rendl and R. Sotirov. Bounds for the quadratic assignment problem using the bundle method. Math. Program., 109 (2--3, Ser. B): 505--524, 2007.

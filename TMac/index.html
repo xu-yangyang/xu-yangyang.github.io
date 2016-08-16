@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<title>TMac: <i>T</i>ensor completion by parallel <i>M</i>atrix f<i>ac</i>torization</title>
+<!-- wotao: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-3247448-7']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- wotao: "wrapper" class for new style -->
+<table summary="Table for page layout." id="tlayout">
+<tr valign="top">
+<td id="layout-menu">
+<!-- wotao: added for the "menu-box" style -->
+<div class="menu-box">
+<div class="menu-category">TMac</div>
+<div class="menu-item"><a href="index.html" class="current">Introduction</a></div>
+<div class="menu-item"><a href="TMac.zip">Matlab&nbsp;codes</a></div>
+<!-- wotao: added for the "menu-box" style -->
+</div>
+</td>
+<td id="layout-content">
+<div id="toptitle">
+<h1>TMac: <i>T</i>ensor completion by parallel <i>M</i>atrix f<i>ac</i>torization</h1>
+<div id="subtitle"><i><a href="http://www.caam.rice.edu/~yx9/">Yangyang Xu</a>, Ruru Hao, <a href="http://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a>, and Zhixun Su</i></div>
+</div>
+<h2>Background</h2>
+<p>Higher-order low-rank tensors with missing values naturally arise in many applications including hyperspectral data recovery, video inpainting, seismic data reconstruction, and so on. These problems can be formulated as low-rank tensor completion (LRTC). Existing methods<img class="eq" src="eqs/514510310-130.png" alt="^{[1, 2]}" style="vertical-align: --2px" /> for LRTC employ matrix nuclear-norm minimization and use the singular value decomposition (SVD) in their algorithms, which become very slow or even not applicable for large-scale problems. To tackle this difficulty, we apply low-rank matrix factorization to each mode unfolding of the tensor in order to enforce low-rankness and update the matrix factors alternatively, which is computationally much cheaper than SVD.</p>
+<h2>Our method</h2>
+<p>We aim at recovering a low-rank tensor <img class="eq" src="eqs/867549104-130.png" alt="mathbf{mathcal{M}}inmathbf{R}^{I_1timesldotstimes I_N}" style="vertical-align: -1px" /> from partial observations <img class="eq" src="eqs/815295466-130.png" alt="mathbf{mathcal{B}}=mathcal{P}_Omega(mathbf{mathcal{M}})" style="vertical-align: -4px" />, where <img class="eq" src="eqs/2091663515-130.png" alt="Omega" style="vertical-align: -0px" /> is the index set of observed entries, and <img class="eq" src="eqs/2127010820-130.png" alt="mathcal{P}_Omega" style="vertical-align: -3px" /> keeps the entries in <img class="eq" src="eqs/2091663515-130.png" alt="Omega" style="vertical-align: -0px" /> and zeros out others. We  apply low-rank matrix factorization to each mode unfolding of <img class="eq" src="eqs/1132663789-130.png" alt="mathbf{mathcal{M}}" style="vertical-align: -1px" /> by finding matrices <img class="eq" src="eqs/503406877-130.png" alt="mathbf{X}_ninmathbf{R}^{I_ntimes r_n},mathbf{Y}_nin mathbf{R}^{r_ntimesPi_{jneq n}I_j}" style="vertical-align: -4px" /> such that <img class="eq" src="eqs/773494377-130.png" alt="mathbf{M}_{(n)}approxmathbf{X}_nmathbf{Y}_n" style="vertical-align: -7px" /> for <img class="eq" src="eqs/651789558-130.png" alt="n=1,ldots,N" style="vertical-align: -4px" />, where <img class="eq" src="eqs/1710490698-130.png" alt="r_n" style="vertical-align: -3px" /> is the estimated rank, either fixed or adaptively updated. Introducing one common variable <img class="eq" src="eqs/969538846-130.png" alt="mathbf{mathcal{Z}}" style="vertical-align: -0px" /> to relate these matrix factorizations, we solve the following model</p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/201745121-130.png" alt="mathop{mathrm{minimize}}_{mathbf{X},mathbf{Y},mathbf{mathcal{Z}}}sum_{n=1}^Nfrac{alpha_n}{2}|mathbf{X}_nmathbf{Y}_n-mathbf{Z}_{(n)}|_F^2,mathrm{s.t.} mathcal{P}_Omega(mathbf{mathcal{Z}})=mathbf{mathcal{B}}, " />
+<br /></div><p>where <img class="eq" src="eqs/579076244-130.png" alt="mathbf{X}=(mathbf{X}_1,ldots,mathbf{X}_N)" style="vertical-align: -4px" /> and <img class="eq" src="eqs/1383848409-130.png" alt="mathbf{Y}=(mathbf{Y}_1,ldots,mathbf{Y}_N)" style="vertical-align: -4px" />. In the model, <img class="eq" src="eqs/222148765-130.png" alt="alpha_n" style="vertical-align: -3px" />, <img class="eq" src="eqs/651789558-130.png" alt="n=1,ldots,N" style="vertical-align: -4px" />, are weights and satisfy <img class="eq" src="eqs/697417427-130.png" alt="sum_nalpha_n=1" style="vertical-align: -6px" />. 
+We use alternating least squares method to solve the model. </p>
+<h2>Results</h2>
+<p>Our model is non-convex jointly with respect to <img class="eq" src="eqs/290742370-130.png" alt="mathbf{X},mathbf{Y}" style="vertical-align: -4px" /> and <img class="eq" src="eqs/1593353335-130.png" alt="mathcal{Z}" style="vertical-align: -0px" />. Although a global solution is not guaranteed, we demonstrate by numerical experiments that our algorithm can reliably recover a wide variety of low-rank tensors, such as the following phase transition plots. In the picture, each target tensor <img class="eq" src="eqs/759176005-130.png" alt="mathcal{M}=mathcal{C}times_1mathbf{A}_1times_2mathbf{A}_2times_3mathbf{A}_3" style="vertical-align: -3px" />, where <img class="eq" src="eqs/760223498-130.png" alt="mathcal{C}inmathbf{R}^{rtimes rtimes r}" style="vertical-align: -1px" /> and <img class="eq" src="eqs/699793007-130.png" alt="mathbf{A}_ninmathbf{R}^{50times r}, forall n" style="vertical-align: -4px" /> have Gaussian random entries. (a) FaLRTC: the tensor completion method in <img class="eq" src="eqs/1087607991-130.png" alt="[2]" style="vertical-align: -5px" />.
+(b) MatComp: first reshape the tensor as a matrix and then use the matrix completion solver LMaFit in <img class="eq" src="eqs/1086608120-130.png" alt="[3]" style="vertical-align: -5px" />. (c) TMac-fix: our method with <img class="eq" src="eqs/992251500-130.png" alt="alpha_n=frac{1}{3}" style="vertical-align: -7px" /> and <img class="eq" src="eqs/1710490698-130.png" alt="r_n" style="vertical-align: -3px" /> fixed to <img class="eq" src="eqs/478325286-130.png" alt="r, forall n" style="vertical-align: -4px" />. (d) TMac-inc: our method with <img class="eq" src="eqs/992251500-130.png" alt="alpha_n=frac{1}{3}" style="vertical-align: -7px" /> and using rank-increasing strategy starting from <img class="eq" src="eqs/282256131-130.png" alt="r_n = mathrm{round}(0.75r),forall n" style="vertical-align: -4px" />. (e) TMac-dec: our method with<img class="eq" src="eqs/992251500-130.png" alt="alpha_n=frac{1}{3}" style="vertical-align: -7px" /> and using rank-decreasing strategy starting from <img class="eq" src="eqs/367966571-130.png" alt="r_n = mathrm{round}(1.25r),forall n" style="vertical-align: -4px" />.</p>
+<p>The results show that our method performs much better than the other two methods.</p>
+<table class="imgtable" align="center"><tr><td>
+<img src="phasePlot.png" alt="" width="850px" />&nbsp;</td>
+<td></td></tr></table>
+<h3>More results can be found in the <a href="http://arxiv.org/pdf/1312.1254.pdf">preprint</a></h3>
+<h2>Citation</h2>
+<p><i>Y. Xu, R. Hao, W. Yin, and Z. Su</i>. Parallel matrix factorization for low-rank tensor completion <a href="http://arxiv.org/pdf/1312.1254.pdf">(PDF)</a></p>
+<h2>References</h2>
+<p><img class="eq" src="eqs/1084608126-130.png" alt="[1]" style="vertical-align: -5px" />  S. Gandy, B. Recht, and I. Yamada, Tensor completion and low-<img class="eq" src="eqs/1195140463-130.png" alt="n" style="vertical-align: -0px" />-rank tensor recovery via convex optimization, Inverse Problems, 27(2011), p. 025010.</p>
+<p><img class="eq" src="eqs/1087607991-130.png" alt="[2]" style="vertical-align: -5px" /> J. Liu, P. Musialski, P. Wonka, and Jieping Ye, Tensor completion for estimating missing values in visual data, IEEE Transactions on Pattern Analysis and Machine Intelligence, (2013), pp. 208-220.</p>
+<p><img class="eq" src="eqs/1086608120-130.png" alt="[3]" style="vertical-align: -5px" />  Z. Wen, W. Yin, and Y. Zhang, Solving a low-rank factorization model for matrix completion by a nonlinear successive over-relaxation algorithm, Mathematical Programming Computation, (2012), pp. 1-29</p>
+<br><a href="javascript:history.go(-1)" onMouseOver="self.status=document.referrer;return true">&laquo; Back</a>
+</td>
+</tr>
+</table>
+<div id="footer">
+<div id="footer-text">
+generated 2013-12-15, by <a href="http://jemdoc.jaboc.net/">jemdoc</a>
+</div>
+</div>
+</div> <!-- wotao: "wrapper" class for new style -->
+</body>
+</html>
