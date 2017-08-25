@@ -1,21 +1,21 @@
-/* css file for jemdoc made by Wotao Yin. */
+/* css file for jemdoc made by Yangyang Xu */
 
 body {
 	background: white;
     background: #4E5963 url(images/pat.png) top left repeat;
 	font-family: georgia, serif;
-    font-size: 13px;
+    font-size: 16px;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
-	padding-top: 35px;
-	padding-bottom: 35px;
+	padding-top: 36px;
+	padding-bottom: 36px;
 	margin: 0;
 }
 
 dt.paper-entry {
     font-size: 14px;
-    line-height: 18px;
+    line-height: 20px;
     font-weight: bold;
     /* font-weight: normal; */
     /* font-family: arial, Helvetica, Utkal, sans-serif; */
@@ -86,6 +86,7 @@ table#tlayout {
 	padding-bottom: 1.0em;
     border: none;
     background: white;
+	/* background: #eeeeff; */
     text-align: left;
     vertical-align: top;
 }
@@ -108,7 +109,7 @@ a, a > tt {
     color: #5C7996; /* blue */
     /* color: #8a8c50; /* yellow */
     /* color: #7c7c50; */
-	text-decoration: underline;
+	text-decoration: underline; 
 }
 
 a:hover {
@@ -150,7 +151,7 @@ div.menu-category {
 	padding-top: 0.3em;
 	padding-bottom: 0.1em;
 	font-weight: bold;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 div.menu-item {
@@ -158,7 +159,7 @@ div.menu-item {
 	text-indent: -12px;
     color: #8A8C50!important;
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     font-style: normal;
     font-variant: normal;
     font-weight: bold;
@@ -203,14 +204,14 @@ h1, h3 {
 }
 
 h1 {
-	font-size: 165%;
+	font-size: 180%;
 }
 
 h2 {
-	font-size: 14px;
+	font-size: 150%;
     font-weight: bold;
 	padding-top: 0.8em;
-    line-height: 15px;
+    line-height: 16px;
     color: #444;
 }
 
@@ -219,21 +220,19 @@ h2 + h3 {
 }
 
 h3 {
-	font-size: 14px;
-    font-weight: bold;
-    padding-left: 1em;
-	/* font-size: 110%; */
-	border-bottom: none;
+	font-size: 120%;
+	/* border-bottom: none; */
+	border-bottom: 1px solid #aaaaaa;
+	/* color: black */
+	color: #5C7996;
 }
 
 p {
 	margin-top: 0.0em;
 	margin-bottom: 0.8em;
 	padding-left: 2em;
-	padding-right: 1.5em;
 	line-height: 19px;
     color: #444;
-    text-align: justify;
 }
 
 pre {
@@ -425,7 +424,7 @@ img.eq {
 img.eqwl {
 	padding-left: 4em;
 	padding-top: 0.6em;
-	padding-bottom: 0.6em;
+	padding-bottom: 0.2em;
 	margin: 0;
 }
 

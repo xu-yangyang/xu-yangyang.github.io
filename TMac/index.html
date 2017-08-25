@@ -5,8 +5,9 @@
 <meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="../images/RPI.png" type="image/png" />
 <title>TMac: <i>T</i>ensor completion by parallel <i>M</i>atrix f<i>ac</i>torization</title>
-<!-- wotao: latest Google Analytics script -->
+<!-- Yangyang: latest Google Analytics script -->
 <script type="text/javascript">
   var _gaq = [];
   _gaq.push(['_setAccount', 'UA-3247448-7']);
@@ -19,22 +20,22 @@
 </script>
 </head>
 <body>
-<div class="wrapper"> <!-- wotao: "wrapper" class for new style -->
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
 <table summary="Table for page layout." id="tlayout">
 <tr valign="top">
 <td id="layout-menu">
-<!-- wotao: added for the "menu-box" style -->
+<!-- Yangyang: added for the "menu-box" style -->
 <div class="menu-box">
 <div class="menu-category">TMac</div>
 <div class="menu-item"><a href="index.html" class="current">Introduction</a></div>
-<div class="menu-item"><a href="TMac.zip">Matlab&nbsp;codes</a></div>
-<!-- wotao: added for the "menu-box" style -->
+<div class="menu-item"><a href="../codes/TMac.zip">Matlab&nbsp;codes</a></div>
+<!-- Yangyang: added for the "menu-box" style -->
 </div>
 </td>
 <td id="layout-content">
 <div id="toptitle">
 <h1>TMac: <i>T</i>ensor completion by parallel <i>M</i>atrix f<i>ac</i>torization</h1>
-<div id="subtitle"><i><a href="http://www.caam.rice.edu/~yx9/">Yangyang Xu</a>, Ruru Hao, <a href="http://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a>, and Zhixun Su</i></div>
+<div id="subtitle"><i><a href="https://xu-yangyang.github.io">Yangyang Xu</a>, Ruru Hao, <a href="http://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a>, and Zhixun Su</i></div>
 </div>
 <h2>Background</h2>
 <p>Higher-order low-rank tensors with missing values naturally arise in many applications including hyperspectral data recovery, video inpainting, seismic data reconstruction, and so on. These problems can be formulated as low-rank tensor completion (LRTC). Existing methods<img class="eq" src="eqs/514510310-130.png" alt="^{[1, 2]}" style="vertical-align: --2px" /> for LRTC employ matrix nuclear-norm minimization and use the singular value decomposition (SVD) in their algorithms, which become very slow or even not applicable for large-scale problems. To tackle this difficulty, we apply low-rank matrix factorization to each mode unfolding of the tensor in order to enforce low-rankness and update the matrix factors alternatively, which is computationally much cheaper than SVD.</p>
@@ -58,15 +59,14 @@ We use alternating least squares method to solve the model. </p>
 <p><img class="eq" src="eqs/1084608126-130.png" alt="[1]" style="vertical-align: -5px" />  S. Gandy, B. Recht, and I. Yamada, Tensor completion and low-<img class="eq" src="eqs/1195140463-130.png" alt="n" style="vertical-align: -0px" />-rank tensor recovery via convex optimization, Inverse Problems, 27(2011), p. 025010.</p>
 <p><img class="eq" src="eqs/1087607991-130.png" alt="[2]" style="vertical-align: -5px" /> J. Liu, P. Musialski, P. Wonka, and Jieping Ye, Tensor completion for estimating missing values in visual data, IEEE Transactions on Pattern Analysis and Machine Intelligence, (2013), pp. 208-220.</p>
 <p><img class="eq" src="eqs/1086608120-130.png" alt="[3]" style="vertical-align: -5px" />  Z. Wen, W. Yin, and Y. Zhang, Solving a low-rank factorization model for matrix completion by a nonlinear successive over-relaxation algorithm, Mathematical Programming Computation, (2012), pp. 1-29</p>
-<br><a href="javascript:history.go(-1)" onMouseOver="self.status=document.referrer;return true">&laquo; Back</a>
 </td>
 </tr>
 </table>
 <div id="footer">
 <div id="footer-text">
-generated 2017-08-20, by <a href="http://jemdoc.jaboc.net/">jemdoc</a>
+generated 2017-08-25, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
 </div>
 </div>
-</div> <!-- wotao: "wrapper" class for new style -->
+</div> <!-- Yangyang: "wrapper" class for new style -->
 </body>
 </html>
