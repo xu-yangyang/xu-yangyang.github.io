@@ -1,10 +1,10 @@
-/* css file for jemdoc made by Wotao Yin. */
+/* css file for jemdoc made by Yangyang Xu */
 
 body {
 	background: white;
     background: #4E5963 url(images/pat.png) top left repeat;
 	font-family: georgia, serif;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
@@ -208,7 +208,7 @@ h1 {
 }
 
 h2 {
-	font-size: 16px;
+	font-size: 150%;
     font-weight: bold;
 	padding-top: 0.8em;
     line-height: 16px;
@@ -221,8 +221,10 @@ h2 + h3 {
 
 h3 {
 	font-size: 120%;
-	border-bottom: none;
-	color: black
+	/* border-bottom: none; */
+	border-bottom: 1px solid #aaaaaa;
+	/* color: black */
+	color: #5C7996;
 }
 
 p {
