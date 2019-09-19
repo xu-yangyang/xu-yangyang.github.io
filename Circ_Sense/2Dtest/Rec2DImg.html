@@ -1,0 +1,272 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Rec2DImg</title><meta name="generator" content="MATLAB 7.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-05-09"><meta name="DC.source" content="Rec2DImg.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">generate a random circulant</a></li><li><a href="#3">Learn 2D circulant kernel</a></li><li><a href="#4">Running solver</a></li><li><a href="#5">Reporting</a></li></ul></div><pre class="codeinput">clear; close <span class="string">all</span>;
+rand(<span class="string">'state'</span>,2013); randn(<span class="string">'state'</span>,2013);
+
+load <span class="string">LearnedDict</span>; <span class="comment">% load previously learned dictionary</span>
+
+[n,K] = size(D); <span class="comment">% size of the learned dictionary</span>
+
+load <span class="string">buildmat</span>  <span class="comment">% load tested image</span>
+[nr,nc] = size(X); <span class="comment">% get image size</span>
+qr = nr/8; <span class="comment">% number of blocks in each row</span>
+qc = nc/8; <span class="comment">% number of blocks in each column</span>
+m = 24; <span class="comment">% number of samples</span>
+
+X_rc = zeros(nr,nc);  X_oc = zeros(nr,nc);  <span class="comment">% to store recovered images</span>
+</pre><h2>generate a random circulant<a name="2"></a></h2><pre class="codeinput">roM = randn(8);
+rM = roM+1i*randn(8); rV = ifft2(rM)/8;
+
+p = randsample(n,m); <span class="comment">% randomly generate m samples</span>
+[A_rc,C_rc] = TwoDCir_operator(p,rV,D,K); <span class="comment">% define operator for yall1</span>
+</pre><h2>Learn 2D circulant kernel<a name="3"></a></h2><pre class="codeinput"><span class="comment">% form the problem to get the optimized kernel</span>
+<span class="comment">% see formula (3.13) in our paper</span>
+Y = zeros(n,K);
+<span class="keyword">for</span> i=1:K
+    Y(:,i) = reshape(fft2(reshape(D(:,i),8,8))/8,n,1);
+<span class="keyword">end</span>
+Ys = Y*Y'; Ys = (Ys+Ys')/2; H = conj(Ys).*Ys; f = diag(Ys);
+
+<span class="comment">% call Matlab function quadprog to solve the formed quadratic program</span>
+quadopts = optimset(<span class="string">'Algorithm'</span>,<span class="string">'active-set'</span>,<span class="keyword">...</span>
+    <span class="string">'Display'</span>,<span class="string">'off'</span>);
+u = quadprog(H,-f,[],[],[],[],zeros(n,1),[],[],quadopts);
+
+<span class="comment">% generate the optimized circulant</span>
+v = sqrt(u).*exp(2*1i*pi*rand(n,1)); <span class="comment">% randomly generate the phase</span>
+V = reshape(v,8,8);
+roV = ifft2(roM)/8;
+
+<span class="comment">% optimized plus random</span>
+<span class="comment">% since using optimized only may lose some image features</span>
+V = 0.6*V/norm(V,<span class="string">'fro'</span>)+0.4*roV/norm(roV,<span class="string">'fro'</span>);
+[A_oc,C_oc] = TwoDCir_operator(p,V,D,K); <span class="comment">% define operator for yall1</span>
+</pre><h2>Running solver<a name="4"></a></h2><pre class="codeinput"><span class="keyword">for</span> j = 1:qc
+    <span class="keyword">for</span> i = 1:qr
+
+        <span class="comment">% partition original image into non-overlapping patches</span>
+        <span class="comment">% do compressed sensing to each patch</span>
+        x0 = reshape(X(8*(i-1)+1:8*i,8*(j-1)+1:8*j),n,1);
+
+        eta = randn(m,1); <span class="comment">% generate Gaussian noise</span>
+        xstart = randn(K,1); <span class="comment">% generate random starting point for yall1</span>
+
+        <span class="comment">% using random circulant</span>
+
+        b = C_rc(x0); <span class="comment">% get measurements for random circulant</span>
+
+        <span class="comment">% specify parameters for yall1</span>
+        opts = [];   opts.x0 = xstart;        opts.tol = 1e-3;
+        opts.rho = 0.01*max(abs(b))/max(abs(eta));
+
+        b = b+0.01*eta*max(abs(b))/max(abs(eta)); <span class="comment">% add noise</span>
+
+        <span class="comment">% call yall1</span>
+        theta = yall1(A_rc,b,opts);
+
+        <span class="comment">% store recovered patches</span>
+        x_hat = D*theta;
+        X_rc((i-1)*8+1:i*8,(j-1)*8+1:j*8) = reshape(x_hat,8,8);
+
+        <span class="comment">% using optimized circulant</span>
+
+        b = C_oc(x0); <span class="comment">% measurement for optimized circulant</span>
+
+        <span class="comment">% specify parameters for yall1</span>
+        opts = [];      opts.x0 = xstart;      opts.tol = 1e-3;
+        opts.rho = 0.01*max(abs(b))/max(abs(eta));
+
+        b = b+0.01*eta*max(abs(b))/max(abs(eta)); <span class="comment">% add noise</span>
+
+        <span class="comment">% call yall1</span>
+        [theta,out] = yall1(A_oc,b,opts);
+
+        <span class="comment">% store recovered patches</span>
+        x_hat = D*theta;
+        X_oc((i-1)*8+1:i*8,(j-1)*8+1:j*8) = reshape(x_hat,8,8);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+X_rc = real(X_rc); X_oc = real(X_oc);
+</pre><h2>Reporting<a name="5"></a></h2><pre class="codeinput">fprintf(<span class="string">'Random Circulant: PSNR = %4.2f\n'</span>,measerr(X,X_rc,max(X(:))));
+fprintf(<span class="string">'Optimized Circulant: PSNR = %4.2f\n'</span>,measerr(X,X_oc,max(X(:))));
+figure;
+imshow(X_rc);
+title(<span class="string">'Random Circulant'</span>,<span class="string">'fontsize'</span>,12);
+
+figure;
+imshow(X_oc);
+title(<span class="string">'Optimized Circulant'</span>,<span class="string">'fontsize'</span>,12);
+</pre><pre class="codeoutput">Random Circulant: PSNR = 25.25
+Optimized Circulant: PSNR = 27.09
+</pre><img vspace="5" hspace="5" src="Rec2DImg_01.png" alt=""> <img vspace="5" hspace="5" src="Rec2DImg_02.png" alt=""> <p class="footer"><br>
+      Published with MATLAB&reg; 7.11<br></p></div><!--
+##### SOURCE BEGIN #####
+clear; close all;
+rand('state',2013); randn('state',2013);
+
+load LearnedDict; % load previously learned dictionary
+
+[n,K] = size(D); % size of the learned dictionary
+
+load buildmat  % load tested image
+[nr,nc] = size(X); % get image size
+qr = nr/8; % number of blocks in each row
+qc = nc/8; % number of blocks in each column
+m = 24; % number of samples
+
+X_rc = zeros(nr,nc);  X_oc = zeros(nr,nc);  % to store recovered images
+
+%% generate a random circulant
+roM = randn(8);
+rM = roM+1i*randn(8); rV = ifft2(rM)/8;
+
+p = randsample(n,m); % randomly generate m samples
+[A_rc,C_rc] = TwoDCir_operator(p,rV,D,K); % define operator for yall1
+
+%% Learn 2D circulant kernel
+
+% form the problem to get the optimized kernel
+% see formula (3.13) in our paper
+Y = zeros(n,K);
+for i=1:K
+    Y(:,i) = reshape(fft2(reshape(D(:,i),8,8))/8,n,1);
+end
+Ys = Y*Y'; Ys = (Ys+Ys')/2; H = conj(Ys).*Ys; f = diag(Ys);
+
+% call Matlab function quadprog to solve the formed quadratic program
+quadopts = optimset('Algorithm','active-set',...
+    'Display','off');
+u = quadprog(H,-f,[],[],[],[],zeros(n,1),[],[],quadopts);
+
+% generate the optimized circulant
+v = sqrt(u).*exp(2*1i*pi*rand(n,1)); % randomly generate the phase
+V = reshape(v,8,8);
+roV = ifft2(roM)/8;
+
+% optimized plus random 
+% since using optimized only may lose some image features
+V = 0.6*V/norm(V,'fro')+0.4*roV/norm(roV,'fro'); 
+[A_oc,C_oc] = TwoDCir_operator(p,V,D,K); % define operator for yall1
+
+%% Running solver
+for j = 1:qc
+    for i = 1:qr
+        
+        % partition original image into non-overlapping patches
+        % do compressed sensing to each patch
+        x0 = reshape(X(8*(i-1)+1:8*i,8*(j-1)+1:8*j),n,1);
+        
+        eta = randn(m,1); % generate Gaussian noise
+        xstart = randn(K,1); % generate random starting point for yall1
+
+        % using random circulant
+
+        b = C_rc(x0); % get measurements for random circulant
+        
+        % specify parameters for yall1
+        opts = [];   opts.x0 = xstart;        opts.tol = 1e-3;
+        opts.rho = 0.01*max(abs(b))/max(abs(eta));
+        
+        b = b+0.01*eta*max(abs(b))/max(abs(eta)); % add noise
+        
+        % call yall1
+        theta = yall1(A_rc,b,opts);
+        
+        % store recovered patches
+        x_hat = D*theta;
+        X_rc((i-1)*8+1:i*8,(j-1)*8+1:j*8) = reshape(x_hat,8,8);
+
+        % using optimized circulant
+        
+        b = C_oc(x0); % measurement for optimized circulant        
+        
+        % specify parameters for yall1
+        opts = [];      opts.x0 = xstart;      opts.tol = 1e-3;         
+        opts.rho = 0.01*max(abs(b))/max(abs(eta));
+        
+        b = b+0.01*eta*max(abs(b))/max(abs(eta)); % add noise
+
+        % call yall1
+        [theta,out] = yall1(A_oc,b,opts);
+        
+        % store recovered patches
+        x_hat = D*theta;
+        X_oc((i-1)*8+1:i*8,(j-1)*8+1:j*8) = reshape(x_hat,8,8);
+    end    
+end
+X_rc = real(X_rc); X_oc = real(X_oc);
+
+%% Reporting
+fprintf('Random Circulant: PSNR = %4.2f\n',measerr(X,X_rc,max(X(:))));
+fprintf('Optimized Circulant: PSNR = %4.2f\n',measerr(X,X_oc,max(X(:))));
+figure;
+imshow(X_rc);
+title('Random Circulant','fontsize',12);
+
+figure;
+imshow(X_oc);
+title('Optimized Circulant','fontsize',12);
+##### SOURCE END #####
+--></body></html>

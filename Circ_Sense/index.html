@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="images/RPI.png" type="image/png" />
+<title>Learning circulant sensing kernels</title>
+<!-- Yangyang: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-61771387-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
+<div id="layout-content">
+<div id="toptitle">
+<h1>Learning circulant sensing kernels</h1>
+<div id="subtitle"><i><a href="https://xu-yangyang.github.io">Yangyang Xu</a>, <a href="http://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a>, and <a href="http://www.math.ucla.edu/~sjo/">Stanley Osher</a></i></div>
+</div>
+<h2>Background</h2>
+<p>In signal acquisition, Toeplitz and circulant matrices are widely used as sensing operators. They correspond
+to discrete convolutions and are easily or even naturally realized in various applications. For compressive sensing, recent work
+has used random Toeplitz and circulant sensing matrices and proved their eﬃciency in theory, by computer simulations, as
+well as through physical optical experiments.</p>
+<h2>Learn the sensing kernel</h2>
+<p>One condition for sparse signal recovery from compressive sensing is incoherence between sensing matrix and sparsifying matrix. Given a sparsifying matrix or dictionary <img class="eq" src="eqs/5161677540956415856-130.png" alt="Psi" style="vertical-align: -1px" />, our method aims at learning a circulant sensing matrix/operator to achieve low coherence. </p>
+<p>We use circulant matrix/operator is due to signal acquisition consideration particular for large-scale data. A circulant matrix can be written as <img class="eq" src="eqs/6051227481959286507-130.png" alt="C=Fmathrm{diag}(d)F^*" style="vertical-align: -4px" />, where <img class="eq" src="eqs/8960026951-130.png" alt="F" style="vertical-align: -0px" /> is discrete Fourier matrix, so performing <img class="eq" src="eqs/8576025794-130.png" alt="C" style="vertical-align: -0px" /> to a signal can be realized by a fast Fourier transform (FFT), an inverse FFT, and some component-wise multiplication. Similar argument applies to 2D circulant operator <img class="eq" src="eqs/8578670002092438653-130.png" alt="mathcal{C}_2" style="vertical-align: -3px" /> by noting it can be written as <img class="eq" src="eqs/4004361127317982032-130.png" alt="mathcal{C}_2=mathcal{F}_2circmathcal{V}circmathcal{F}_2^*" style="vertical-align: -5px" />, where <img class="eq" src="eqs/6867941070886111992-130.png" alt="mathcal{F}_2" style="vertical-align: -3px" /> is a 2D Fourier transform.</p>
+<p>For one-dimensional signal, our method learns a partial circulant matrix by solving</p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/9159057515258065807-130.png" alt=" mathop{mathrm{minimize}}_Phi |Psi^*Phi^*PhiPsi-I|_F^2 " />
+<br /></div><p>where <img class="eq" src="eqs/1230646311866147882-130.png" alt="Phi=PC" style="vertical-align: -1px" />, <img class="eq" src="eqs/8576025794-130.png" alt="C" style="vertical-align: -0px" /> is a circulant matrix, and <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" /> is a row-selecting matrix. </p>
+<p>For two-dimensional signal, it learns a partial circulant operator by solving </p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/8011618441022816781-130.png" alt=" mathop{mathrm{minimize}}_{mathcal{G}} |mathcal{Q}^*mathcal{G}^*mathcal{G}mathcal{Q}-mathcal{I}|^2 " />
+<br /></div><p>where <img class="eq" src="eqs/2325741352974071641-130.png" alt="mathcal{G}=mathcal{P}_Omegamathcal{C}_2" style="vertical-align: -3px" />, <img class="eq" src="eqs/8578670002092438653-130.png" alt="mathcal{C}_2" style="vertical-align: -3px" /> is a 2D circulant operator, and <img class="eq" src="eqs/6631946050023744508-130.png" alt="mathcal{P}_Omega" style="vertical-align: -3px" /> is a downsampling operator.</p>
+<p>The above learning processes are carried out in two steps. The first step learns a circulant matrix/operator, and the second step learns a downsampling matrix/operator. Learning a circulant matrix/operator is equivalent to learning a kernel, and thus it can be easily done. The two steps can be repeated many times. However, the optimization problem about the downsamplers is difficult. We only perform the two steps one time. One can also choose <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" /> or <img class="eq" src="eqs/6631946050023744508-130.png" alt="mathcal{P}_Omega" style="vertical-align: -3px" /> randomly, which works well on signals without dominating frequency.</p>
+<p>In addition, we learn <img class="eq" src="eqs/5161677540956415856-130.png" alt="Psi" style="vertical-align: -1px" /> and <img class="eq" src="eqs/5161677540983415935-130.png" alt="Phi" style="vertical-align: -1px" /> simultaneously by alternatively updating them. The coupled learning method can be found in <i>Algorithm 2</i> of our <a href="http://www.caam.rice.edu/~wy1/paperfiles/Rice_CAAM_TR12-05_Learn_Circ_Mtx.PDF">report</a>.</p>
+<h2>Selected numerical results</h2>
+<ul>
+<li><p>Results of tests using Gaussian random basis (left) and Fourier basis (right) as the sparsify basis <img class="eq" src="eqs/5161677540956415856-130.png" alt="Psi" style="vertical-align: -1px" /></p>
+</li>
+</ul>
+<table class="imgtable" align="center"><tr>
+<td>
+<img src="SucRate_v2_n512_m64_random.png" alt="" width="400px" />&nbsp;</td>
+<td><img src="SucRate_v2_n512_m64_Fourier.png" alt="" width="400px" />&nbsp;</td>
+<td></td></tr></table>
+<ul>
+<li><p>Results of real image tests using the images&rsquo; 8x8 patches to form dictionaries (left: 16/64 measurements; right: 24/64 measurments)</p>
+</li>
+</ul>
+<table class="imgtable" align="center"><tr>
+<td>
+<img src="test_1D_Berk_2e4_L6_mse_m16.png" alt="" width="400px" />&nbsp;</td>
+<td><img src="test_1D_Berk_2e4_L6_mse_m24.png" alt="" width="400px" />&nbsp;</td>
+<td></td></tr></table>
+<h2>Matlab codes</h2>
+<ul>
+<li><p><a href="1Dtest/synthetic_test.html">1D test</a></p>
+</li>
+</ul>
+<p>a test of 1D signal recovery with synthetic dictionaries and a randomly generated sparse signal</p>
+<ul>
+<li><p><a href="2Dtest/Rec2DImg.html">2D test</a></p>
+</li>
+</ul>
+<p>a test that illustrates how to apply a 2D circulant operator to image patches and recover a 2D image from circulant measurements</p>
+<ul>
+<li><p><a href="FullSizeRec/FullImgRec.html">Fullsize recovery</a></p>
+</li>
+</ul>
+<p>a test that demonstrates image recovery using a fullsize sensing operator and dictionary; see <a href="ImgDict.html">fullsize recovery</a></p>
+<ul>
+<li><p><a href="../codes/Circ_sense.zip">download code</a></p>
+</li>
+</ul>
+<h2>Citation</h2>
+<p><i>Y. Xu, W. Yin, and S. Osher</i>. <a href="https://www.aimsciences.org/article/doi/10.3934/ipi.2014.8.901">Learning circulant sensing kernels</a>. <i>Inverse Problems and Imaging</i>, 8(3), 901&ndash;923. </p>
+</div>
+<div id="footer">
+<div id="footer-text">
+generated 2019-09-19, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- Yangyang: "wrapper" class for new style -->
+</body>
+</html>

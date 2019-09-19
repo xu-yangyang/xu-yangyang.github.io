@@ -1,0 +1,84 @@
+clear; close all;
+rand('state',2013); randn('state',2013);
+load plane_129x241;
+
+load LearnedDict;
+[n,K] = size(D);
+
+[N1,N2] = size(xtest);
+
+n1 = 8; n2 = 8;
+nr = floor(N1/n1); nc = floor(N2/n2);
+resnr = N1-n1*nr; resnc = N2-n2*nc;
+N = nr*nc+sign(resnr)*nc+sign(resnc)*nr+sign(resnr*resnc);
+
+load LearnedKernel;
+
+x0 = X;
+nrmx0 = norm(x0,'fro');
+sr = 0.3;
+m = round(sr*N1*N2); % number of samples
+
+eta = randn(m,1); % generate noise
+xstart = randn(N*K,1); % starting point
+
+% generate random circulant
+roM = randn(N1,N2);
+rM = roM+1i*randn(N1,N2);  rV = fft2(rM);
+rp = randsample(N1*N2,m);
+
+rrM = real(rM); riM = imag(rM);
+rell = spGetNrm(rp,rrM,riM,N1,N2,m);
+rell = rell.^0.5;
+
+rNrm = reshape(rell,N1,N2);
+[A_rc,D_Oper_rc] = pave_A_full_operator(rp,rV,D,rNrm,N1,N2,n1,n2,K);
+
+% generate optimized circulant
+i = sqrt(-1);
+roV = fft2(roM);
+oV = sqrt(U).*exp(2*i*pi*rand(N1,N2));
+oV = 0.6*oV/norm(oV,'fro') + 0.4*roV/norm(roV,'fro');
+
+oM = ifft2(oV)
+
+orM = real(oM); oiM = imag(oM);
+oell = spGetNrm(op,orM,oiM,N1,N2,m);
+oell = oell.^0.5;
+
+oNrm = reshape(oell,N1,N2);
+[A_oc, D_Oper_oc] = pave_A_full_operator(op,oV,D,oNrm,N1,N2,n1,n2,K);
+
+
+%Random circulant test
+
+b = x0./rNrm;
+b = fft2(rV.*(ifft2(b)));
+b = b(p);
+opts = []; opts.tol = 1e-3;
+opts.x0 = xstart;
+
+opts.rho = 0.01*max(abs(b))/max(abs(eta));
+
+b = b+0.01*max(abs(b))/max(abs(eta))*eta;
+theta = yall1(A_rc,b,opts);
+X_rc = D_Oper_rc(theta);
+
+
+
+
+%Optimized circulant test plus some random
+b = x0./oNrm;
+b = fft2(oV.*(ifft2(b)));
+b = b(p);
+opts = []; opts.tol = 1e-3;
+opts.x0 = xstart;
+
+    opts.rho = 0.01*max(abs(x_i))/max(abs(eta));
+
+x_i = x_i+0.01*max(abs(x_i))/max(abs(eta))*eta;
+[theta,out] = yall1(A_oc,x_i,opts);
+X_oc = D_Oper_oc(theta);
+
+
+

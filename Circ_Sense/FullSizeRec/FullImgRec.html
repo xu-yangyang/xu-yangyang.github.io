@@ -1,0 +1,264 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>FullImgRec</title><meta name="generator" content="MATLAB 7.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-05-09"><meta name="DC.source" content="FullImgRec.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Generating data</a></li><li><a href="#3">Running random circulant</a></li><li><a href="#4">Running optimized circulant</a></li><li><a href="#5">Reporting</a></li></ul></div><pre class="codeinput">clear; close <span class="string">all</span>;
+rand(<span class="string">'state'</span>,2013); randn(<span class="string">'state'</span>,2013);
+</pre><h2>Generating data<a name="2"></a></h2><pre class="codeinput">load <span class="string">CropPlane</span>; <span class="comment">% load a cropped Plane image</span>
+
+load <span class="string">LearnedDict</span>; <span class="comment">% load previously learned dictionary</span>
+[n,K] = size(D); <span class="comment">% size of the dictionary</span>
+
+[N1,N2] = size(X); <span class="comment">% get image size</span>
+
+n1 = 8; n2 = 8; <span class="comment">% patch size</span>
+
+<span class="comment">% calculate number of image-size atoms</span>
+<span class="comment">% see Fig. 4.1 in our paper</span>
+nr = floor(N1/n1); nc = floor(N2/n2);
+resnr = N1-n1*nr; resnc = N2-n2*nc;
+N = nr*nc+sign(resnr)*nc+sign(resnc)*nr+sign(resnr*resnc);
+
+sr = 0.3; <span class="comment">% sample percentage</span>
+m = round(sr*N1*N2); <span class="comment">% number of samples</span>
+
+eta = randn(m,1); <span class="comment">% generate noise</span>
+xstart = randn(N*K,1); <span class="comment">% generate random starting point for yall1</span>
+</pre><h2>Running random circulant<a name="3"></a></h2><pre class="codeinput">roM = randn(N1,N2); <span class="comment">% generate random kernel</span>
+rM = roM+1i*randn(N1,N2);  rV = fft2(rM);
+p = randsample(N1*N2,m); <span class="comment">% generate random samples</span>
+
+<span class="comment">% to normalize sensing operator</span>
+rrM = real(rM); riM = imag(rM);
+rell = spGetNrm(p,rrM,riM,N1,N2,m);
+rell = rell.^0.5;
+
+rNrm = reshape(rell,N1,N2);
+
+<span class="comment">% define operator for yall1</span>
+[A_rc,D_Oper_rc] = pave_A_full_operator(p,rV,D,rNrm,N1,N2,n1,n2,K);
+
+<span class="comment">% get measurements for random circulant</span>
+b = X./rNrm;  b = fft2(rV.*(ifft2(b)));  b = b(p);
+
+<span class="comment">% specify parameters for yall1</span>
+opts = [];    opts.tol = 1e-3;     opts.x0 = xstart;
+opts.rho = 0.01*max(abs(b))/max(abs(eta));
+
+b = b+0.01*max(abs(b))/max(abs(eta))*eta; <span class="comment">% add noise</span>
+
+<span class="comment">% call yall1</span>
+theta = yall1(A_rc,b,opts);
+
+<span class="comment">% store recovered image</span>
+X_rc = D_Oper_rc(theta);
+</pre><h2>Running optimized circulant<a name="4"></a></h2><pre class="codeinput">load <span class="string">LearnedKernel</span>; <span class="comment">% load optimized kernel done offline</span>
+roV = fft2(roM);
+oV = sqrt(U).*exp(2*1i*pi*rand(N1,N2)); <span class="comment">% generate the optimized kernel</span>
+oV = 0.6*oV/norm(oV,<span class="string">'fro'</span>) + 0.4*roV/norm(roV,<span class="string">'fro'</span>);<span class="comment">% plus some randomness</span>
+
+oM = ifft2(oV);
+
+<span class="comment">% to normalize sensing operator</span>
+orM = real(oM); oiM = imag(oM);
+oell = spGetNrm(p,orM,oiM,N1,N2,m);
+oell = oell.^0.5;
+
+oNrm = reshape(oell,N1,N2);
+
+<span class="comment">% define operator for yall1</span>
+[A_oc, D_Oper_oc] = pave_A_full_operator(p,oV,D,oNrm,N1,N2,n1,n2,K);
+
+<span class="comment">% get measurements for the optimized circulant</span>
+b = X./oNrm;    b = fft2(oV.*(ifft2(b)));     b = b(p);
+
+<span class="comment">% speficy parameters for yall1</span>
+opts = [];    opts.tol = 1e-3;         opts.x0 = xstart;
+opts.rho = 0.01*max(abs(b))/max(abs(eta));
+
+b = b+0.01*max(abs(b))/max(abs(eta))*eta; <span class="comment">% add noise</span>
+
+<span class="comment">% call yall1</span>
+theta = yall1(A_oc,b,opts);
+
+<span class="comment">% store recovered image</span>
+X_oc = D_Oper_oc(theta);
+
+X_rc = real(X_rc); X_oc = real(X_oc);
+</pre><h2>Reporting<a name="5"></a></h2><pre class="codeinput">fprintf(<span class="string">'Random Circulant: PSNR = %4.2f\n'</span>,measerr(X,X_rc,max(X(:))));
+fprintf(<span class="string">'Optimized Circulant: PSNR = %4.2f\n'</span>,measerr(X,X_oc,max(X(:))));
+figure;
+imshow(X_rc);
+title(<span class="string">'Random Circulant'</span>,<span class="string">'fontsize'</span>,12);
+
+figure;
+imshow(X_oc);
+title(<span class="string">'Optimized Circulant'</span>,<span class="string">'fontsize'</span>,12);
+</pre><pre class="codeoutput">Random Circulant: PSNR = 27.36
+Optimized Circulant: PSNR = 29.82
+</pre><img vspace="5" hspace="5" src="FullImgRec_01.png" alt=""> <img vspace="5" hspace="5" src="FullImgRec_02.png" alt=""> <p class="footer"><br>
+      Published with MATLAB&reg; 7.11<br></p></div><!--
+##### SOURCE BEGIN #####
+clear; close all;
+rand('state',2013); randn('state',2013);
+
+%% Generating data
+load CropPlane; % load a cropped Plane image 
+
+load LearnedDict; % load previously learned dictionary
+[n,K] = size(D); % size of the dictionary
+
+[N1,N2] = size(X); % get image size
+
+n1 = 8; n2 = 8; % patch size
+
+% calculate number of image-size atoms
+% see Fig. 4.1 in our paper
+nr = floor(N1/n1); nc = floor(N2/n2);
+resnr = N1-n1*nr; resnc = N2-n2*nc;
+N = nr*nc+sign(resnr)*nc+sign(resnc)*nr+sign(resnr*resnc);
+
+sr = 0.3; % sample percentage
+m = round(sr*N1*N2); % number of samples
+
+eta = randn(m,1); % generate noise
+xstart = randn(N*K,1); % generate random starting point for yall1
+
+%% Running random circulant
+
+roM = randn(N1,N2); % generate random kernel
+rM = roM+1i*randn(N1,N2);  rV = fft2(rM);
+p = randsample(N1*N2,m); % generate random samples
+
+% to normalize sensing operator
+rrM = real(rM); riM = imag(rM);
+rell = spGetNrm(p,rrM,riM,N1,N2,m);
+rell = rell.^0.5;
+
+rNrm = reshape(rell,N1,N2);
+
+% define operator for yall1
+[A_rc,D_Oper_rc] = pave_A_full_operator(p,rV,D,rNrm,N1,N2,n1,n2,K);
+
+% get measurements for random circulant
+b = X./rNrm;  b = fft2(rV.*(ifft2(b)));  b = b(p);
+
+% specify parameters for yall1
+opts = [];    opts.tol = 1e-3;     opts.x0 = xstart;
+opts.rho = 0.01*max(abs(b))/max(abs(eta));
+
+b = b+0.01*max(abs(b))/max(abs(eta))*eta; % add noise
+
+% call yall1
+theta = yall1(A_rc,b,opts);
+
+% store recovered image
+X_rc = D_Oper_rc(theta);
+
+%% Running optimized circulant
+
+load LearnedKernel; % load optimized kernel done offline
+roV = fft2(roM);
+oV = sqrt(U).*exp(2*1i*pi*rand(N1,N2)); % generate the optimized kernel
+oV = 0.6*oV/norm(oV,'fro') + 0.4*roV/norm(roV,'fro');% plus some randomness
+
+oM = ifft2(oV);
+
+% to normalize sensing operator
+orM = real(oM); oiM = imag(oM);
+oell = spGetNrm(p,orM,oiM,N1,N2,m);
+oell = oell.^0.5;
+
+oNrm = reshape(oell,N1,N2);
+
+% define operator for yall1
+[A_oc, D_Oper_oc] = pave_A_full_operator(p,oV,D,oNrm,N1,N2,n1,n2,K);
+
+% get measurements for the optimized circulant
+b = X./oNrm;    b = fft2(oV.*(ifft2(b)));     b = b(p);
+
+% speficy parameters for yall1
+opts = [];    opts.tol = 1e-3;         opts.x0 = xstart;
+opts.rho = 0.01*max(abs(b))/max(abs(eta));
+
+b = b+0.01*max(abs(b))/max(abs(eta))*eta; % add noise
+
+% call yall1
+theta = yall1(A_oc,b,opts);
+
+% store recovered image
+X_oc = D_Oper_oc(theta);
+
+X_rc = real(X_rc); X_oc = real(X_oc);
+%% Reporting
+fprintf('Random Circulant: PSNR = %4.2f\n',measerr(X,X_rc,max(X(:))));
+fprintf('Optimized Circulant: PSNR = %4.2f\n',measerr(X,X_oc,max(X(:))));
+figure;
+imshow(X_rc);
+title('Random Circulant','fontsize',12);
+
+figure;
+imshow(X_oc);
+title('Optimized Circulant','fontsize',12);
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="images/RPI.png" type="image/png" />
+<title>Generating image-size dictionary from a patch-size one</title>
+<!-- Yangyang: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-3247448-7']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
+<div id="layout-content">
+<div id="toptitle">
+<h1>Generating image-size dictionary from a patch-size one</h1>
+</div>
+<p>The existing methods learn a dictionary based on image patches. Therefore, the size of the learned dictionary will be the same as that of the image patches, for example, 5x5 or 9x9. In practice, however, we take measurements directly from images instead of their small patches. How can we use a patch-size dictionary to recover a large image from its measurements? Our method does this by generating a fullsize dictionary &ndash; in the same size as the image &ndash; from a patch-size dictionary. The picture below illustrates how to create image-size atoms from a patch-size dictionary atom.</p>
+<table class="imgtable" align="center"><tr><td>
+<img src="ImgDict.bmp" alt="" width="800px" />&nbsp;</td>
+<td></td></tr></table>
+<p><br><!--to force a line break--></p>
+<p>The increase in atom size does not affect image sparsity. 
+
+Using the image-size dictionary <img class="eq" src="eqs/5161677540956415856-130.png" alt="Psi" style="vertical-align: -1px" />, one can recover an image <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -0px" /> by solving the <img class="eq" src="eqs/2349274112114421517-130.png" alt="ell_1" style="vertical-align: -3px" /> problem</p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/9076656196509023237-130.png" alt="mathop{mathrm{minimize}}_{theta}|theta|_1+frac{1}{2rho}|PhiPsitheta-b|_2^2 " />
+<br /></div><p>where <img class="eq" src="eqs/739607760730912656-130.png" alt="b=Phi x+eta" style="vertical-align: -4px" />, <img class="eq" src="eqs/5161632540589415152-130.png" alt="eta" style="vertical-align: -4px" /> is noise, and <img class="eq" src="eqs/5161643540699415195-130.png" alt="rho" style="vertical-align: -4px" /> is related to the level of noise level. After obtaining <img class="eq" src="eqs/5179806648303708846-130.png" alt="theta" style="vertical-align: -0px" />, one can use <img class="eq" src="eqs/8265566617125863658-130.png" alt="Psitheta" style="vertical-align: -1px" /> to estimate <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -0px" />. With a careful numerical implementation, the dictionary size increase has only minor speed impact to the algorithm.</p>
+</div>
+<div id="footer">
+<div id="footer-text">
+generated 2019-09-19, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- Yangyang: "wrapper" class for new style -->
+</body>
+</html>

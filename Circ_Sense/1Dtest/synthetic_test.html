@@ -1,0 +1,241 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>synthetic_test</title><meta name="generator" content="MATLAB 7.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-05-09"><meta name="DC.source" content="synthetic_test.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">generate a sparse signal</a></li><li><a href="#4">generate a random circulant matrix</a></li><li><a href="#5">learn circulant matrix</a></li><li><a href="#7">Reporting</a></li></ul></div><pre class="codeinput">clear; close <span class="string">all</span>;
+rand(<span class="string">'state'</span>,2013); randn(<span class="string">'state'</span>,2013);
+
+m = 64; <span class="comment">% number of rows of sensing matrices</span>
+n = 512; <span class="comment">% number of columns of sensing matrices</span>
+
+testnum = 50; <span class="comment">% total number of independent runs</span>
+
+Psi = dftmtx(n)/sqrt(n); <span class="comment">% Fourier basis</span>
+
+suc = zeros(2,6); <span class="comment">% to record successful recovery</span>
+
+<span class="keyword">for</span> k = 6:3:21 <span class="comment">% sparsity level</span>
+    <span class="keyword">for</span> num = 1:testnum
+</pre><h2>generate a sparse signal<a name="3"></a></h2><pre class="codeinput">        xs = zeros(n,1); <span class="comment">% xs is the true signal</span>
+        xs(randsample(n,k)) = randn(k,1); <span class="comment">% generate a k-sparse signal</span>
+        xs = xs/norm(xs); <span class="comment">% normalize the signal</span>
+        xstart = randn(n,1); <span class="comment">% randomly generate a starting point for yall1</span>
+</pre><h2>generate a random circulant matrix<a name="4"></a></h2><pre class="codeinput">        v = randn(1,n)+1i*randn(1,n); <span class="comment">% generate a random kernel</span>
+        C = gallery(<span class="string">'circul'</span>,v); <span class="comment">% generate a circulant matrix</span>
+        p = randperm(n);
+        Phi = C(p(1:m),:); <span class="comment">% select m rows at random</span>
+        <span class="comment">% normalize the sensing matrix</span>
+        <span class="keyword">for</span> i=1:n
+            Phi(:,i) = Phi(:,i)/norm(Phi(:,i));
+        <span class="keyword">end</span>
+
+        <span class="comment">% specify parameters for yall1</span>
+        A = Phi*Psi;        b = A*xs;
+        opts = [];      opts.tol = 5e-8;        opts.x0 = xstart;
+
+        <span class="comment">% call yall1</span>
+        x = yall1(A,b,opts);
+
+        <span class="comment">% record successful recovery of random circulant</span>
+        <span class="keyword">if</span> norm(x-xs)/norm(xs) &lt; 1e-4
+            suc(1,k/3-1) = suc(1,k/3-1)+1;
+        <span class="keyword">end</span>
+</pre><h2>learn circulant matrix<a name="5"></a></h2><pre class="codeinput">        <span class="comment">% form the quadratic program to get the optimized kernel</span>
+        <span class="comment">% see formula (3.3) in our paper</span>
+        F = dftmtx(n)/sqrt(n); <span class="comment">% discreate Fourier matrix</span>
+        B = F'*Psi*Psi'*F; Bsq = B.*conj(B); dB = diag(B);
+        Bsq = (Bsq+Bsq')/2;
+        quadopts = optimset(<span class="string">'Algorithm'</span>,<span class="string">'active-set'</span>,<span class="keyword">...</span>
+                <span class="string">'Display'</span>,<span class="string">'off'</span>);
+
+        <span class="comment">% call Matlab function quadprog to solve the formed quadratic</span>
+        <span class="comment">% program</span>
+        dsq = quadprog(Bsq,-dB,[],[],[],[],zeros(n,1),[],[],quadopts);
+
+        d = sqrt(dsq).*exp(2*1i*pi*rand(n,1)); <span class="comment">% generate the phase at random</span>
+        C = F*diag(d)*F'; <span class="comment">% get the learned circulant matrix</span>
+
+        Phi = C(p(1:m),:); <span class="comment">% select m out of n rows</span>
+
+        <span class="comment">% normalize the sensing matrix</span>
+        <span class="keyword">for</span> i=1:n
+            Phi(:,i) = Phi(:,i)/norm(Phi(:,i));
+        <span class="keyword">end</span>
+
+        <span class="comment">% specify the parameters for yall1</span>
+        A = Phi*Psi;        b = A*xs;
+        opts = [];      opts.tol = 5e-8;        opts.x0 = xstart;
+
+        <span class="comment">% call yall1</span>
+        x = yall1(A,b,opts);
+
+        <span class="comment">% record successful recovery of optimized circulant</span>
+        <span class="keyword">if</span> norm(x-xs)/norm(xs) &lt; 1e-4;
+            suc(2,k/3-1) = suc(2,k/3-1)+1;
+        <span class="keyword">end</span>;
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2>Reporting<a name="7"></a></h2><pre class="codeinput">suc = suc/testnum;
+plot(6:3:21,suc(1,:),<span class="string">'r-d'</span>,<span class="string">'linewidth'</span>,2)
+hold <span class="string">on</span>;
+plot(6:3:21,suc(2,:),<span class="string">'b--+'</span>,<span class="string">'linewidth'</span>,2)
+legend(<span class="string">'random circulant'</span>,<span class="string">'optimized circulant'</span>,<span class="string">'location'</span>,<span class="string">'best'</span>);
+xlabel(<span class="string">'sparsity level'</span>,<span class="string">'fontsize'</span>,12);
+ylabel(<span class="string">'success rate'</span>,<span class="string">'fontsize'</span>,12);
+</pre><img vspace="5" hspace="5" src="synthetic_test_01.png" alt=""> <p class="footer"><br>
+      Published with MATLAB&reg; 7.11<br></p></div><!--
+##### SOURCE BEGIN #####
+clear; close all;
+rand('state',2013); randn('state',2013);
+
+m = 64; % number of rows of sensing matrices
+n = 512; % number of columns of sensing matrices
+
+testnum = 50; % total number of independent runs
+
+Psi = dftmtx(n)/sqrt(n); % Fourier basis
+
+suc = zeros(2,6); % to record successful recovery
+
+for k = 6:3:21 % sparsity level
+    for num = 1:testnum
+                
+        %% generate a sparse signal
+        
+        xs = zeros(n,1); % xs is the true signal
+        xs(randsample(n,k)) = randn(k,1); % generate a k-sparse signal
+        xs = xs/norm(xs); % normalize the signal
+        xstart = randn(n,1); % randomly generate a starting point for yall1 
+        
+        %% generate a random circulant matrix
+        
+        v = randn(1,n)+1i*randn(1,n); % generate a random kernel
+        C = gallery('circul',v); % generate a circulant matrix
+        p = randperm(n);
+        Phi = C(p(1:m),:); % select m rows at random
+        % normalize the sensing matrix
+        for i=1:n
+            Phi(:,i) = Phi(:,i)/norm(Phi(:,i));
+        end
+        
+        % specify parameters for yall1
+        A = Phi*Psi;        b = A*xs;
+        opts = [];      opts.tol = 5e-8;        opts.x0 = xstart; 
+        
+        % call yall1
+        x = yall1(A,b,opts);
+        
+        % record successful recovery of random circulant
+        if norm(x-xs)/norm(xs) < 1e-4 
+            suc(1,k/3-1) = suc(1,k/3-1)+1; 
+        end
+        
+        %% learn circulant matrix
+        
+        % form the quadratic program to get the optimized kernel
+        % see formula (3.3) in our paper        
+        F = dftmtx(n)/sqrt(n); % discreate Fourier matrix
+        B = F'*Psi*Psi'*F; Bsq = B.*conj(B); dB = diag(B);
+        Bsq = (Bsq+Bsq')/2;
+        quadopts = optimset('Algorithm','active-set',...
+                'Display','off');
+            
+        % call Matlab function quadprog to solve the formed quadratic
+        % program
+        dsq = quadprog(Bsq,-dB,[],[],[],[],zeros(n,1),[],[],quadopts);
+        
+        d = sqrt(dsq).*exp(2*1i*pi*rand(n,1)); % generate the phase at random
+        C = F*diag(d)*F'; % get the learned circulant matrix
+        
+        Phi = C(p(1:m),:); % select m out of n rows 
+        
+        % normalize the sensing matrix
+        for i=1:n
+            Phi(:,i) = Phi(:,i)/norm(Phi(:,i));
+        end
+        
+        % specify the parameters for yall1
+        A = Phi*Psi;        b = A*xs;        
+        opts = [];      opts.tol = 5e-8;        opts.x0 = xstart;  
+        
+        % call yall1
+        x = yall1(A,b,opts);
+        
+        % record successful recovery of optimized circulant
+        if norm(x-xs)/norm(xs) < 1e-4; 
+            suc(2,k/3-1) = suc(2,k/3-1)+1; 
+        end;
+        
+    end
+end
+
+%% Reporting
+suc = suc/testnum; 
+plot(6:3:21,suc(1,:),'r-d','linewidth',2)
+hold on;
+plot(6:3:21,suc(2,:),'bREPLACE_WITH_DASH_DASH+','linewidth',2)
+legend('random circulant','optimized circulant','location','best');
+xlabel('sparsity level','fontsize',12);
+ylabel('success rate','fontsize',12);
+##### SOURCE END #####
+--></body></html>
