@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="../images/RPI.png" type="image/png" />
+<title>ARock: an Algorithmic Framework for Asynchronous Parallel Coordinate Updates</title>
+<!-- Yangyang: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-61771387-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
+<div id="layout-content">
+<div id="toptitle">
+<h1>ARock: an Algorithmic Framework for Asynchronous Parallel Coordinate Updates</h1>
+<div id="subtitle"><i><a href="http://zhiminpeng.github.io/">Zhimin Peng</a>,
+<a href="https://xu-yangyang.github.io">Yangyang Xu</a>, <a href="https://users.math.msu.edu/users/yanm/">Ming Yan</a>, and <a href="https://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a></i></div>
+</div>
+<h2>Background</h2>
+<p>Finding a fixed point to a nonexpansive operator, i.e., <img class="eq" src="eqs/2848888513471057235-130.png" alt="x^*=Tx^*" style="vertical-align: -0px" />, abstracts many problems in numerical linear algebra, optimization, and other areas of scientific computing. To solve fixed-point problems, we propose ARock, an algorithmic framework in which multiple agents (machines, processors, or cores) update <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -0px" /> in an asynchronous parallel fashion. Asynchrony is crucial to parallel computing since it reduces synchronization wait, relaxes communication bottleneck, and thus speeds up computing significantly. At each step of ARock, an agent updates a randomly selected coordinate <img class="eq" src="eqs/5999452984665080561-130.png" alt="x_i" style="vertical-align: -3px" /> based on possibly out-of-date information on <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -0px" />. The agents share <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -0px" /> through either global memory or communication. If writing <img class="eq" src="eqs/5999452984665080561-130.png" alt="x_i" style="vertical-align: -3px" /> is atomic, the agents can read and write <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -0px" /> without memory locks.</p>
+<p>Theoretically, we show that if the nonexpansive operator <img class="eq" src="eqs/10752032341-130.png" alt="T" style="vertical-align: -0px" /> has a fixed point, then with probability one, ARock generates a sequence that converges to a fixed points of <img class="eq" src="eqs/10752032341-130.png" alt="T" style="vertical-align: -0px" />. Our conditions on <img class="eq" src="eqs/10752032341-130.png" alt="T" style="vertical-align: -0px" /> and step sizes are weaker than comparable work. Linear convergence is also obtained.</p>
+<p>We propose special cases of ARock for linear systems, convex optimization, machine learning, as well as distributed and decentralized consensus problems. Numerical experiments of solving sparse logistic regression problems are presented.</p>
+<h2>Numerical results</h2>
+<p>We compare ARock to its synchronous counterpart for solving the sparse logistic regression problem on rcv1 and news20 LIBSVM data sets. The two data sets have high variance of sparsity across all coordinates; see the figure below. For this reason, the synchronous parallel method has  serious load imbalance and thus achieves very low parallelization speed-up, while ARock can achieve near-linearly speed-up; see the table below.  </p>
+<table class="imgtable" align="center"><tr><td>
+<img src="sparsity_distribution.png" alt="" width="800px" />&nbsp;</td>
+<td></td></tr></table>
+<table class="imgtable" align="center"><tr><td>
+<img src="result_table.png" alt="" width="800px" />&nbsp;</td>
+<td></td></tr></table>
+<h2>Matlab code</h2>
+<p><a href="https://github.com/uclaopt/tmac">source code and instruction</a></p>
+<h2>Citation</h2>
+<p><i>Z. Peng, Y. Xu, M. Yan, and W. Yin</i>. <a href="https://www.math.ucla.edu/~wotaoyin/papers/arock/asyn_theory_20160121.pdf">ARock: an Algorithmic Framework for Asynchronous Parallel Coordinate Updates</a>. SIAM Journal on Scientific Computing 38 (5), A2851&ndash;A2879.</p>
+</div>
+<div id="footer">
+<div id="footer-text">
+generated 2019-09-19, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- Yangyang: "wrapper" class for new style -->
+</body>
+</html>
