@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="images/RPI.png" type="image/png" />
+<title>Patch-dictionary method for whole image recovery</title>
+<!-- Yangyang: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-61771387-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
+<div id="layout-content">
+<div id="toptitle">
+<h1>Patch-dictionary method for whole image recovery</h1>
+<div id="subtitle"><i><a href="https://xu-yangyang.github.io/">Yangyang Xu</a> and <a href="https://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a></i></div>
+</div>
+<h2>Background</h2>
+<p>Various algorithms have been proposed for dictionary learning such as KSVD<img class="eq" src="eqs/2708305882951756665-130.png" alt="^{[1]}" style="vertical-align: --2px" /> and the online dictionary learning method<img class="eq" src="eqs/2708306882823756034-130.png" alt="^{[2]}" style="vertical-align: --2px" />. Among those for image processing, many use <i>image patches</i> to form dictionaries; see <img class="eq" src="eqs/2708307882947756447-130.png" alt="^{[3]}" style="vertical-align: --2px" /> for example, which uses patch-dictionary for image denoising. </p>
+<p>We propose a <a href="DictLearn.html">new dictionary learning method</a> by the accelerated alternating proximal gradient. We address a simple yet open issue regarding <i>whole-image</i> recovery: the large number of overlapping patches lead to a large number of free coefficients in the recovery, which can cause overfitting and slow computation. This issue has limited many patch-based methods to the &ldquo;local&rdquo; or &ldquo;nearly local&rdquo; kinds of image processing tasks, such as denoising, inpainting, deblurring, super-resolution, and compressive sensing in which the measurements encode the image patch by patch. For these tasks, one or a few patches can be processed or updated at a time, so the overfitting issue does not arise. We consider the more difficult &ldquo;global&rdquo; kind of task, such as compressive sensing and medical image recovery, where each number of the measurements encodes the whole image and thus it is either impossible or very ineffective to process one or a few patches at a time.</p>
+<h2>Notation and our method </h2>
+<p>We shall recover an image <img class="eq" src="eqs/4781585748405965483-130.png" alt="mathbf{M}" style="vertical-align: -1px" /> from its 
+corrupted measurement <img class="eq" src="eqs/1307874239122942775-130.png" alt="mathbf{b}=mathcal{A}(mathbf{M})+mathbf{xi}" style="vertical-align: -4px" />, 
+where <img class="eq" src="eqs/6379065522987502684-130.png" alt="mathcal{A}" style="vertical-align: -1px" /> denotes a linear operator, and <img class="eq" src="eqs/7083357291898388014-130.png" alt="xi" style="vertical-align: -4px" /> is some noise. 
+Depending on the applications, <img class="eq" src="eqs/6379065522987502684-130.png" alt="mathcal{A}" style="vertical-align: -1px" /> can take different forms. </p>
+<p>Let <img class="eq" src="eqs/4640162322706380850-130.png" alt="mathcal{R}_{ij}(mathbf{M})" style="vertical-align: -6px" /> denote the <img class="eq" src="eqs/6542781286693810121-130.png" alt="(i,j)" style="vertical-align: -4px" />-th patch (<img class="eq" src="eqs/5280783075468891510-130.png" alt="mathcal{R}_{ij}" style="vertical-align: -6px" /> is a linear operator) and assume its has an (approximately) sparse representation under a given dictionary <img class="eq" src="eqs/4781585748396965622-130.png" alt="mathbf{D}" style="vertical-align: -0px" />, i.e., <img class="eq" src="eqs/8160969234055579434-130.png" alt="mathcal{R}_{ij}(mathbf{M})=mathbf{D}mathbf{y}_{ij}" style="vertical-align: -6px" /> where <img class="eq" src="eqs/8141576630506790718-130.png" alt="mathbf{y}_{ij}" style="vertical-align: -6px" /> is an (approximately) sparse vector. When a set <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" /> of patches together covers every pixel of <img class="eq" src="eqs/4781585748405965483-130.png" alt="mathbf{M}" style="vertical-align: -1px" />, we can represent <img class="eq" src="eqs/4781585748405965483-130.png" alt="mathbf{M}" style="vertical-align: -1px" /> by</p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/5762479662022819819-130.png" alt=" mathbf{M}=(mathcal{T}_P)^{-1}sum_{(i,j)in P}mathcal{R}_{ij}^top(mathbf{D}mathbf{y}_{ij}),quad mathcal{T_P}:=sum_{(i,j)in P}mathcal{R}_{ij} " />
+<br /></div><p>where <img class="eq" src="eqs/6463855324620522420-130.png" alt="mathcal{R}_{ij}^top" style="vertical-align: -8px" /> is the adjoint of <img class="eq" src="eqs/5280783075468891510-130.png" alt="mathcal{R}_{ij}" style="vertical-align: -6px" />, and <img class="eq" src="eqs/287784572427486142-130.png" alt="(mathcal{T}_P)^{-1}" style="vertical-align: -4px" /> is an operator that averages the overlapping patches.</p>
+<p>Now, we take <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" /> as a set of covering but <i>non-overlapping</i> patches. Then <img class="eq" src="eqs/8540281977946221624-130.png" alt="mathcal{T}_P=mathcal{I}" style="vertical-align: -3px" />, the identify operator. Constructing such a <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" /> is equivalent to partitioning <img class="eq" src="eqs/4781585748405965483-130.png" alt="mathbf{M}" style="vertical-align: -1px" /> into non-overlapping blocks, such as the following two partitions. </p>
+<ul>
+<li><p>Two examples of non-overlapping patches that cover a whole image</p>
+</li>
+</ul>
+<table class="imgtable" align="center"><tr>
+<td>
+<img src="partition_image1.png" alt="" width="300px" />&nbsp;</td>
+<td><img src="partition_image2.png" alt="" width="300px" />&nbsp;</td>
+<td></td></tr></table>
+<p>To recover <img class="eq" src="eqs/4781585748405965483-130.png" alt="mathbf{M}" style="vertical-align: -1px" /> from <img class="eq" src="eqs/4781585748434965508-130.png" alt="mathbf{b}" style="vertical-align: -0px" />, we solve the following model</p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/3047482902504522063-130.png" alt=" mathop{mathrm{minimize}}_{mathbf{y}}sum_{(i,j)in P}|mathbf{w}_{ij}odotmathbf{y}_{ij}|_1+frac{1}{2nu}|mathcal{A}mathcal{T}_P^{-1}(sum_{(i,j)in P}mathcal{R}_{ij}^top(mathbf{D}mathbf{y}_{ij}))-mathbf{b}|_2^2,qquadqquad(*) " />
+<br /></div><p>where <img class="eq" src="eqs/2005368430507201064-130.png" alt="mathbf{w}_{ij}" style="vertical-align: -6px" /> is a weight vector. The model (<img class="eq" src="eqs/5376016171-130.png" alt="*" style="vertical-align: -0px" />) can be solved by many convex optimization methods, for example, YALL1 in our numerical experiements.</p>
+<p>When a set <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" /> of non-overlapping patches is used in (<img class="eq" src="eqs/5376016171-130.png" alt="*" style="vertical-align: -0px" />), the solution sometimes bears the grid artifact. An effective strategy to avoid this artifact is to solve multiple instances of (<img class="eq" src="eqs/5376016171-130.png" alt="*" style="vertical-align: -0px" />) with <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" />'s that arrange their patches in different ways, like the two examples above though we use up to five different, and then take the average of the solutions. Of course, the different instants of (<img class="eq" src="eqs/5376016171-130.png" alt="*" style="vertical-align: -0px" />) can be solved in parallel.</p>
+<p>It is important to use non-overlapping patches since this limits the number of free variables in (<img class="eq" src="eqs/5376016171-130.png" alt="*" style="vertical-align: -0px" />) and improves solution quality (despite the possible grid artifact). If all the overlapping patches are used, there will be far more free variables.</p>
+<h2>Selected numerical results</h2>
+<ul>
+<li><p>LEFT: image denoising results by solving (<img class="eq" src="eqs/5376016171-130.png" alt="*" style="vertical-align: -0px" />) with all the overlapping patches (PSNR = 26.98); RIGHT: the same with just one set of non-overlapping patches (PSNR = 30.57)</p>
+</li>
+</ul>
+<table class="imgtable" align="center"><tr>
+<td>
+<img src="overlap_yall1.png" alt="" width="300px" />&nbsp;</td>
+<td><img src="OurMethod_nonoverlap.png" alt="" width="300px" />&nbsp;</td>
+<td></td></tr></table>
+<ul>
+<li><p>We solve <i>five</i> instances of (<img class="eq" src="eqs/5376016171-130.png" alt="*" style="vertical-align: -0px" />) with <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" />'s that arrange their patches in different ways. Out of the five recovered images <img class="eq" src="eqs/4663697150523542728-130.png" alt="mathbf{M}_1,ldots,mathbf{M}_5" style="vertical-align: -4px" />, the one with the highest PSNR is denoted by <img class="eq" src="eqs/1666665857092703218-130.png" alt="mathbf{M}_{mbox{best}}" style="vertical-align: -7px" />. We also compute <img class="eq" src="eqs/2017342903846692432-130.png" alt="mathbf{M}_j^{av}=frac{1}{j}sum_{i=1}^jmathbf{M}_i" style="vertical-align: -10px" />, which is the running average of the first <img class="eq" src="eqs/13568040811-130.png" alt="j" style="vertical-align: -4px" /> recovered images. The table below reports their PSNRs. Image PSNRs improve as more average is taken.</p>
+</li>
+</ul>
+<table class="imgtable" align="center"><tr><td>
+<img src="average.png" alt="" width="800px" />&nbsp;</td>
+<td></td></tr></table>
+<ul>
+<li><p>The quality of dictionary plays a vital role in image recovery. We tested recovering images from their compressive circulant measurements and report their PSNRs below. The four columns in each group, from left to right, correspond to: the solution to (<img class="eq" src="eqs/5376016171-130.png" alt="*" style="vertical-align: -0px" />) with the <a href="DictLearn.html">learned dictionary</a> <img class="eq" src="eqs/4781585748396965622-130.png" alt="mathbf{D}" style="vertical-align: -0px" />, that with the discrete cosine transform (DCT) <img class="eq" src="eqs/4781585748396965622-130.png" alt="mathbf{D}" style="vertical-align: -0px" />, that with the adaptively updated dictionary <img class="eq" src="eqs/4781585748396965622-130.png" alt="mathbf{D}" style="vertical-align: -0px" /> (see Sec. 2.2 of <a href="ftp://ftp.math.ucla.edu/pub/camreport/cam13-38.pdf">our report</a> or <img class="eq" src="eqs/2708307882947756447-130.png" alt="^{[3]}" style="vertical-align: --2px" />), the solution to a total variation model. The winner is the adpatively updated dictionary.</p>
+</li>
+</ul>
+<table class="imgtable" align="center"><tr><td>
+<img src="cs.png" alt="" width="850px" />&nbsp;</td>
+<td></td></tr></table>
+<ul>
+<li><p>More numerical results, as well as the technical details, can be found in <a href="https://arxiv.org/abs/1408.3740">our report</a>.</p>
+</li>
+</ul>
+<h2>Matlab codes</h2>
+<p><a href="../codes/dict_learn.zip">Download the code</a></p>
+<h2>Citation</h2>
+<p><i>Y. Xu and W. Yin</i>. A fast patch-dictionary method for whole-image recovery. <i>Inverse Problems and Imaging</i>, 10(2), 563&ndash;583, 2016. </p>
+<h2>References</h2>
+<p><img class="eq" src="eqs/2708305882951756665-130.png" alt="^{[1]}" style="vertical-align: --2px" />. M. Aharon, M. Elad, and A. Bruckstein. <i>KSVD: an algorithm for designing overcomplete dictionaries for sparse representation</i>, IEEE Transactions on Signal Processing, 54(2006), pp. 4311&ndash;4322.</p>
+<p><img class="eq" src="eqs/2708306882823756034-130.png" alt="^{[2]}" style="vertical-align: --2px" />. J. Mairal, F. Bach, J. Ponce, and G. Sapiro. <i>Online dictionary learning for sparse coding</i>, in Proceedings of the 26th Annual Iternational Conference on Machine Learning, ACM, 2009, pp. 689&ndash;696.</p>
+<p><img class="eq" src="eqs/2708307882947756447-130.png" alt="^{[3]}" style="vertical-align: --2px" />. M. Elad, and M. Aharon. <i>Image denoising via sparse and redundant representations over learned dictionaries</i>, IEEE Transactions on Image Processing, 15(2006), pp. 3736&ndash;3745.</p>
+</div>
+<div id="footer">
+<div id="footer-text">
+generated 2019-09-22, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- Yangyang: "wrapper" class for new style -->
+</body>
+</html>

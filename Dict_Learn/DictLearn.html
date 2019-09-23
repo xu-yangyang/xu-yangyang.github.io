@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="images/RPI.png" type="image/png" />
+<title>Alternating proximal gradient method for dictionary learning</title>
+<!-- Yangyang: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-61771387-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
+<div id="layout-content">
+<div id="toptitle">
+<h1>Alternating proximal gradient method for dictionary learning</h1>
+<div id="subtitle"><i><a href="https://xu-yangyang.github.io/">Yangyang Xu</a> and <a href="https://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a></i></div>
+</div>
+<h2>Background</h2>
+<p>Dictionary learning has been very popular and shown efficient for many tasks such as image inpainting, image deblurring, super-resolution, and classification. Various algorithms have been proposed for dictionary learning. Famous examples have KSVD<img class="eq" src="eqs/2708305882951756665-130.png" alt="^{[1]}" style="vertical-align: --2px" />, and the online dictionary learning method<img class="eq" src="eqs/2708306882823756034-130.png" alt="^{[2]}" style="vertical-align: --2px" />. Both of them have been demonstrated to work well in practice. However, their convergence results have not been well established. </p>
+<h2>Our method</h2>
+<p>We apply the method proposed in our recent <a href="http://caam.rice.edu/~wy1/paperfiles/Rice_CAAM_TR12-15_Multiconvex_BCD.PDF">paper</a> to the biconvex dictionary learning model<img class="eq" src="eqs/2708306882823756034-130.png" alt="^{[2]}" style="vertical-align: --2px" /></p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/9086993111368509391-130.png" alt="mathop{mathrm{minimize}}_{mathbf{D},mathbf{Y}}frac{1}{2}|mathbf{D}mathbf{Y}-mathbf{X}|_F^2+mu|mathbf{Y}|_1,quadmathrm{s.t.} mathbf{D}inmathcal{D}:={mathbf{D}:|mathbf{d}_j|_2le 1, j=1,ldots,K},qquadqquad (**) " />
+<br /></div><p>where <img class="eq" src="eqs/3287414137540125089-130.png" alt="mathbf{X}=[mathbf{x}_1,ldots,mathbf{x}_p]" style="vertical-align: -6px" /> is a given training dataset.
+Our algorithm iteratively applies the following two updates</p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/1214187162732689180-130.png" alt=" mathbf{D}^{k+1}=mathop{mathrm{argmin}}_{mathbf{D}inmathcal{D}}langle nabla_{mathbf{D}}ell(hat{mathbf{D}}^k,mathbf{Y}^k),mathbf{D}-hat{mathbf{D}}^krangle + frac{L_d^k}{2}|mathbf{D}-hat{mathbf{D}}^k|_F^2, " />
+<br /></div>
+<div class="eqwl"><img class="eqwl" src="eqs/5755967907537088717-130.png" alt=" mathbf{Y}^{k+1}=mathop{mathrm{argmin}}_{mathbf{Y}}langle nabla_{mathbf{Y}}ell(mathbf{D}^{k+1},hat{mathbf{Y}}^k),mathbf{Y}-hat{mathbf{Y}}^krangle + mu|mathbf{Y}|_1 + frac{L_y^k}{2}|mathbf{Y}-hat{mathbf{Y}}^k|_F^2, " />
+<br /></div><p>where <img class="eq" src="eqs/6028819146945622745-130.png" alt="ell(mathbf{D},mathbf{Y}):=frac{1}{2}|mathbf{D}mathbf{Y}-mathbf{X}|_F^2" style="vertical-align: -7px" />, <img class="eq" src="eqs/2508083618293557680-130.png" alt="hat{mathbf{D}}^k" style="vertical-align: -0px" /> and <img class="eq" src="eqs/7440512751139563611-130.png" alt="hat{mathbf{Y}}^k" style="vertical-align: -1px" /> are some extrapolated points, and <img class="eq" src="eqs/8684503574189988665-130.png" alt="L_d^k, L_y^k" style="vertical-align: -8px" /> are Lipschitz constants.</p>
+<p>Both the above two updates have closed form solutions and thus the algorithm is very easy to implement. In addition, the extrapolation technique can greatly speed up the convergence. Moreover, the algorithm provably converges to a stationary point of (<img class="eq" src="eqs/5376032298048470-130.png" alt="**" style="vertical-align: -0px" />).</p>
+<h2>Numerical results</h2>
+<ul>
+<li><p>We randomly generate a dictionary <img class="eq" src="eqs/7464594852495733683-130.png" alt="mathbf{D}inmathbf{R}^{ntimes K}" style="vertical-align: -1px" /> with <img class="eq" src="eqs/4166502486683698064-130.png" alt="n=36" style="vertical-align: -0px" /> fixed. Then let <img class="eq" src="eqs/6927051125076096466-130.png" alt="mathbf{X}=mathbf{D}mathbf{Y}inmathbf{R}^{Ktimes p}" style="vertical-align: -1px" />, where each column of <img class="eq" src="eqs/4781585748425965679-130.png" alt="mathbf{Y}" style="vertical-align: -1px" /> has <img class="eq" src="eqs/14592043891-130.png" alt="r" style="vertical-align: -0px" /> Gaussian randomly generated nonzeros. Each atom <img class="eq" src="eqs/4781585748428965526-130.png" alt="mathbf{d}" style="vertical-align: -0px" /> of <img class="eq" src="eqs/4781585748396965622-130.png" alt="mathbf{D}" style="vertical-align: -0px" /> is regarded successfully recovered if <img class="eq" src="eqs/736085374059950828-130.png" alt="max_ifrac{|hat{mathbf{d}}_i^topmathbf{d}|}{|hat{mathbf{d}}_i^top|cdot|mathbf{d}|}ge 0.99" style="vertical-align: -17px" />, where <img class="eq" src="eqs/2485228825296516399-130.png" alt="hat{mathbf{D}}" style="vertical-align: -0px" /> is the recovered dictionary. The following table shows the time (in second) and recovery rates by our algorithm (Algorithm <img class="eq" src="eqs/6528019634-130.png" alt="3" style="vertical-align: -0px" /> in our paper), KSVD and the online dictionary learning method on randomly generated data. Our algorithm performs the best.</p>
+</li>
+</ul>
+<table class="imgtable" align="center"><tr><td>
+<img src="dict.png" alt="" width="900px" />&nbsp;</td>
+<td></td></tr></table>
+<h2>Citation</h2>
+<p><i>Y. Xu and W. Yin</i>. A fast patch-dictionary method for whole-image recovery. <i>Inverse Problems and Imaging</i>, 10(2), 563&ndash;583, 2016.</p>
+<h2>References</h2>
+<p><img class="eq" src="eqs/2708305882951756665-130.png" alt="^{[1]}" style="vertical-align: --2px" />. M. Aharon, M. Elad, and A. Bruckstein. <i>KSVD: an algorithm for designing overcomplete dictionaries for sparse representation</i>, IEEE Transactions on Signal Processing, 54(2006), pp. 4311&ndash;4322.</p>
+<p><img class="eq" src="eqs/2708306882823756034-130.png" alt="^{[2]}" style="vertical-align: --2px" />. J. Mairal, F. Bach, J. Ponce, and G. Sapiro. <i>Online dictionary learning for sparse coding</i>, in Proceedings of the 26th Annual Iternational Conference on Machine Learning, ACM, 2009, pp. 689&ndash;696.</p>
+</div>
+<div id="footer">
+<div id="footer-text">
+generated 2019-09-22, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- Yangyang: "wrapper" class for new style -->
+</body>
+</html>
