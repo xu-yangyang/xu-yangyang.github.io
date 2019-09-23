@@ -63,25 +63,84 @@
 <div id="toptitle">
 <h1>Software packages</h1>
 </div>
+<h3>ADMM for quadratic assignment problem (QAP)</h3>
 <ul>
-<li><p><a href="https://xu-yangyang.github.io/ADMM_QAP/"><b>ADMM for QAP</b></a></p>
+<li><p>By a lifting technique, we obtain a tightest convex relaxation of QAP among all relaxed problems that use quadratic constraints. On solving the lifted SDP relaxation, we first use a facial reduction technique to remove redundant constraints and then apply the alternating direction method of multipliers (ADMM). On two classes of QAP benchmark data sets, our method can consistently give tighter lower bounds than state-of-the-art methods and can sometimes reach the optimal value.</p>
 </li>
-<li><p><a href="https://github.com/uclaopt/tmac"><b>ARock: asynchronous parallel coordinate updates</b></a></p>
-</li>
-<li><p><a href="http://www.math.ucla.edu/~wotaoyin/papers/tmac_tensor_recovery.html"><b>Tensor completion by parallel matrix factorization</b></a></p>
-</li>
-<li><p><a href="http://www.math.ucla.edu/~wotaoyin/papers/bcu/"><b>Block-coordinate update (BCU)</b></a></p>
+</ul>
 <ul>
-<li><p>Nonnegative matrix factorization</p>
+<li><p><a href="https://xu-yangyang.github.io/ADMM_QAP/">code and more description</a></p>
 </li>
-<li><p>Nonnegative CP decomposition</p>
+</ul>
+<h3>ARock: asynchronous parallel coordinate updates</h3>
+<ul>
+<li><p>We propose ARock, an asynchronous parallel coordinate update method, for finding a fixed point of an operator <img class="eq" src="eqs/10752032341-130.png" alt="T" style="vertical-align: -0px" />. Compared to the synchronous parallel counterpart, ARock does not perform synchronization among all nodes after one update, and thus it can eliminate idle waiting time that is incurred by synchronization and load imbalance. ARock can enjoy the same convergence guarantee as its synchronous counterpart but yield much better parallelization speed-up.</p>
 </li>
-<li><p>Nonnegative Tucker decompistion</p>
-</li></ul>
+</ul>
+<ul>
+<li><p><a href="https://xu-yangyang.github.io/ARock/">code and more description</a></p>
 </li>
-<li><p><a href="http://www.caam.rice.edu/~optimization/circulant"><b>Learning circulant kernels</b></a></p>
+</ul>
+<h3>Tensor completion by parallel matrix factorization</h3>
+<ul>
+<li><p>We factorize a low-rank tensor into the product of low-rank matrices along each mode and build a low-rank tensor completion model by parallel low-rank matrix factorization. The model is nonconvex and can be efficiently solved by the alternating least squares method. The new model (with a dynamic rank-adjusting technique) performs significantly better than the convex nuclear norm minimization model.</p>
 </li>
-<li><p><a href="codes/MCNF.zip"><b>Matrix completion with nonnegative factors</b></a></p>
+</ul>
+<ul>
+<li><p><a href="https://xu-yangyang.github.io/TMac/">code and more description</a></p>
+</li>
+</ul>
+<h3>Dictionary learning and patch-dictionary method for whole-image recovery</h3>
+<ul>
+<li><p>We propose a new dictionary learning method by the accelerated alternating proximal gradient method. By using a given (analytic or learned) dictionary, we sparse-code each image patch and represent the whole image by paving all non-overlapping patches. This way, we propose to recover a whole image from its global measurements by using a patch-size dictionary. Through a few recoveries from different partitions, we eliminate the &ldquo;stitching&rdquo; effect. Our method can obtain more faithful recovery and is more efficient than state-of-the-art methods.</p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://xu-yangyang.github.io/Dict_Learn/">code and more description</a></p>
+</li>
+</ul>
+<h3>Matrix/tensor factorization by block coordinate update methods</h3>
+<ul>
+<li><p>We propose a block coordinate update method with three different update schemes: block minimization, block proximal point, and block proximal gradient. A unified convergence analysis is provided to three different schemes. A subsequence convergence result is shown first, and a whole-sequence convergence result is then established for problems that satisfy the Kurdyka-Lojasiewicz property. Our method has been applied to matrix factorization, CP and Tucker tensor factorization with or without non-negativity constraints, and dictionary learning problems.</p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://xu-yangyang.github.io/BCD/">code and more description</a></p>
+</li>
+</ul>
+<h3>Learning circulant kernels</h3>
+<ul>
+<li><p>We propose to learn a circulant sensing matrix by minimizing its mutual coherence with a given (analytic or learned) dictionary. With the learned sensing matrix, the recovery quality of a signal or image can be significantly improved, as compared to a random sensing matrix. Also, we propose to learn a circulant sensing matrix together with a dictionary to further improve the recovery.</p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://xu-yangyang.github.io/Circ_Sense/">code and more description</a></p>
+</li>
+</ul>
+<h3>Iterative reweighted Least Squares</h3>
+<ul>
+<li><p>We propose an iterative reweighted least squares method for solving unconstrained <img class="eq" src="eqs/6653501418137561475-130.png" alt="L_q" style="vertical-align: -6px" /> minimization to recover a sparse vector and a low-rank matrix. Every iteration, our method smoothes the <img class="eq" src="eqs/6653501418137561475-130.png" alt="L_q" style="vertical-align: -6px" /> regularization term and then solves an equation formed from the first-order optimality condition. As the smooth parameter approaches to zero, the smoothed term becomes the <img class="eq" src="eqs/6653501418137561475-130.png" alt="L_q" style="vertical-align: -6px" /> term. When <img class="eq" src="eqs/4959665791042087804-130.png" alt="qge 1" style="vertical-align: -4px" />, the model is convex, our method can guarantee to find an optimal solution, and when <img class="eq" src="eqs/6576999153490350945-130.png" alt="0&lt;q &lt; 1" style="vertical-align: -4px" />, the model is non-convex, our method can still guarantee convergence to a stationary point. Superlinear local convergence is also established. Numerical results demonstrate the superiority of our method over convex recovery methods and also a low-rank matrix factorization method.</p>
+</li>
+</ul>
+<ul>
+<li><p><b>Citation</b>: M. Lai, Y. Xu and W. Yin. Improved iteratively reweighted least squares for unconstrained smoothed Lq minimization. <i>SIAM Journal on Numerical Analysis</i>, 51(2), pp. 927&ndash;957, 2013.</p>
+</li>
+</ul>
+<ul>
+<li><p><a href="codes/IRucLq.zip">download the code</a></p>
+</li>
+</ul>
+<h3>Matrix completion with nonnegative factors</h3>
+<ul>
+<li><p>We propose a novel model of nonnegative matrix completion through performing nonnegative matrix factorization (NMF) from partial observations of a nonnegative matrix. The model builds on the NMF and the low-rank matrix completion. We apply the alternating direction method of multipliers (ADMM) to solve the model. Despite non-convexity, ADMM enjoys nice convergence and also performs well numerically. By utilizing the non-negativity property of the underlying matrix, our method can consistently perform better than a low-rank matrix completion method that does not enforce the non-negativity constraint.</p>
+</li>
+</ul>
+<ul>
+<li><p><b>Citation</b>: Y. Xu, W. Yin, Z. Wen, and Y. Zhang. An alternating direction algorithm for matrix completion with nonnegative factors. <i>Frontiers of Mathematics in China</i>, 7(2), 365&ndash;384, 2012.</p>
+</li>
+</ul>
+<ul>
+<li><p><a href="codes/MCNF.zip">download the code</a></p>
 </li>
 </ul>
 </td>
@@ -89,7 +148,7 @@
 </table>
 <div id="footer">
 <div id="footer-text">
-generated 2019-08-24, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+generated 2019-09-22, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
 </div>
 </div>
 </div> <!-- Yangyang: "wrapper" class for new style -->
