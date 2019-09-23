@@ -34,17 +34,17 @@
 <h2>Notation and our method </h2>
 <p>The QAP problem can be formulated as</p>
 
-<div class="eqwl"><img class="eqwl" src="eqs/719662941-130.png" alt=" min_{XinPi_n} langle AXB-2C, X rangle " />
-<br /></div><p>where <img class="eq" src="eqs/269909568-130.png" alt="A" style="vertical-align: -0px" /> and <img class="eq" src="eqs/141909181-130.png" alt="B" style="vertical-align: -0px" /> are real symmetric matrices, <img class="eq" src="eqs/13908798-130.png" alt="C" style="vertical-align: -0px" /> is a real matrix, and <img class="eq" src="eqs/2118822085-130.png" alt="Pi_n" style="vertical-align: -3px" /> denotes the set of <img class="eq" src="eqs/1387172471-130.png" alt="ntimes n" style="vertical-align: -0px" /> permutation matrices. By lifting variable, [1] relaxed the original QAP problem into</p>
+<div class="eqwl"><img class="eqwl" src="eqs/6875547761712484515-130.png" alt=" min_{XinPi_n} langle AXB-2C, X rangle " />
+<br /></div><p>where <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> and <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" /> are real symmetric matrices, <img class="eq" src="eqs/8576025794-130.png" alt="C" style="vertical-align: -0px" /> is a real matrix, and <img class="eq" src="eqs/1113714073187735355-130.png" alt="Pi_n" style="vertical-align: -3px" /> denotes the set of <img class="eq" src="eqs/1281182548146164343-130.png" alt="ntimes n" style="vertical-align: -0px" /> permutation matrices. By lifting variable, [1] relaxed the original QAP problem into</p>
 
-<div class="eqwl"><img class="eqwl" src="eqs/76656870-130.png" alt=" min_{Rsucceq 0} langle L_Q, hat{V}Rhat{V}^toprangle, ~mathrm{s.t.}~mathcal{G}_J(hat{V}Rhat{V}^top)=E_{00}, " />
-<br /></div><p>where <img class="eq" src="eqs/609848151-130.png" alt="mathcal{G}_J" style="vertical-align: -3px" /> is a sampling operator (also called gangster operator) picking the elements in the index set <img class="eq" src="eqs/882093899-130.png" alt="J" style="vertical-align: -0px" />, <img class="eq" src="eqs/2047587278-130.png" alt="E_{00}" style="vertical-align: -3px" /> is a matrix with all zeros except the top-left one, <img class="eq" src="eqs/5514958-130.png" alt="hat{V}" style="vertical-align: -0px" /> is a basis matrix (see our <a href="http://arxiv.org/abs/1512.05448">report</a>), and</p>
+<div class="eqwl"><img class="eqwl" src="eqs/2863882316148748518-130.png" alt=" min_{Rsucceq 0} langle L_Q, hat{V}Rhat{V}^toprangle, ~mathrm{s.t.}~mathcal{G}_J(hat{V}Rhat{V}^top)=E_{00}, " />
+<br /></div><p>where <img class="eq" src="eqs/5868062071645113175-130.png" alt="mathcal{G}_J" style="vertical-align: -3px" /> is a sampling operator (also called gangster operator) picking the elements in the index set <img class="eq" src="eqs/9472028491-130.png" alt="J" style="vertical-align: -0px" />, <img class="eq" src="eqs/1250716069443384270-130.png" alt="E_{00}" style="vertical-align: -3px" /> is a matrix with all zeros except the top-left one, <img class="eq" src="eqs/6492308088302590258-130.png" alt="hat{V}" style="vertical-align: -0px" /> is a basis matrix (see our <a href="http://arxiv.org/abs/1512.05448">report</a>), and</p>
 
-<div class="eqwl"><img class="eqwl" src="eqs/206112847-130.png" alt=" L_Q=left[begin{array}{cc}0 &amp; -mathrm{vec}(C)^top-mathrm{vec}(C) &amp; Botimes Aend{array}right]. " />
-<br /></div><p>We introduce another variable <img class="eq" src="eqs/1492867624-130.png" alt="Y" style="vertical-align: -0px" /> and enforce <img class="eq" src="eqs/850272864-130.png" alt="Y= hat{V}Rhat{V}^top" style="vertical-align: -0px" /> and also restrict <img class="eq" src="eqs/1087206363-130.png" alt="0le Yle 1" style="vertical-align: -3px" />, resulting in the following model</p>
+<div class="eqwl"><img class="eqwl" src="eqs/8594776497405228977-130.png" alt=" L_Q=left[begin{array}{cc}0 &amp; -mathrm{vec}(C)^top-mathrm{vec}(C) &amp; Botimes Aend{array}right]. " />
+<br /></div><p>We introduce another variable <img class="eq" src="eqs/11392034264-130.png" alt="Y" style="vertical-align: -0px" /> and enforce <img class="eq" src="eqs/4930917645465559648-130.png" alt="Y= hat{V}Rhat{V}^top" style="vertical-align: -0px" /> and also restrict <img class="eq" src="eqs/7012031484025539621-130.png" alt="0le Yle 1" style="vertical-align: -3px" />, resulting in the following model</p>
 
-<div class="eqwl"><img class="eqwl" src="eqs/579314230-130.png" alt=" min_{R, Y} langle L_Q, Yrangle, mathrm{s.t.} Y= hat{V}Rhat{V}^top, mathcal{G}_J(Y)=E_{00}, 0le Yle 1, Rsucceq 0. " />
-<br /></div><p>Then the ADMM method is applied to solve the above model with or without the rank-one constraint <img class="eq" src="eqs/2003596882-130.png" alt="mathrm{rank}(R)=1" style="vertical-align: -4px" />. Due to the introducing of <img class="eq" src="eqs/1492867624-130.png" alt="Y" style="vertical-align: -0px" />, every step in the ADMM method has closed form solution, and numerically ADMM is very efficient on solving our problem.</p>
+<div class="eqwl"><img class="eqwl" src="eqs/299346387748233782-130.png" alt=" min_{R, Y} langle L_Q, Yrangle, mathrm{s.t.} Y= hat{V}Rhat{V}^top, mathcal{G}_J(Y)=E_{00}, 0le Yle 1, Rsucceq 0. " />
+<br /></div><p>Then the ADMM method is applied to solve the above model with or without the rank-one constraint <img class="eq" src="eqs/5273371564263573934-130.png" alt="mathrm{rank}(R)=1" style="vertical-align: -4px" />. Due to the introducing of <img class="eq" src="eqs/11392034264-130.png" alt="Y" style="vertical-align: -0px" />, every step in the ADMM method has closed form solution, and numerically ADMM is very efficient on solving our problem.</p>
 <h2>Numerical results</h2>
 <p>We test our method on 45 benchmark QAP instances. Compared to the best existing lower bound (column 2 by Bundle method [2]), our method improves the lower bound on every instance. In addition, our method is very fast, in particular when there is a low-rank constraint (column 9).</p>
 <table class="imgtable" align="center"><tr><td>
@@ -53,14 +53,14 @@
 <h2>Matlab code</h2>
 <p><a href="../codes/ADMM_QAP.zip">Download the code</a></p>
 <h2>Citation</h2>
-<p><i>D. Oliveira, H. Wolkowicz, and Y. Xu</i>. <a href="http://arxiv.org/abs/1512.05448">ADMM for the SDP relaxation of the QAP</a>. arXiv1512.05448, 2015.</p>
+<p><i>D. Oliveira, H. Wolkowicz, and Y. Xu</i>. ADMM for the SDP relaxation of the QAP. Mathematical Programming Computation, 10(4), pp. 631&ndash;658, 2018.</p>
 <h2>References</h2>
-<p><img class="eq" src="eqs/261051527-130.png" alt="^{[1]}" style="vertical-align: --2px" />. Q. Zhao, S.E. Karisch, F. Rendl, and H. Wolkowicz. <i>Semidefinite programming relaxations for the quadratic assignment problem</i>, J. Combinatorial Optimization, 2(1): 71&ndash;109, 1998.</p>
-<p><img class="eq" src="eqs/1116432126-130.png" alt="^{[2]}" style="vertical-align: --2px" />. F. Rendl and R. Sotirov. Bounds for the quadratic assignment problem using the bundle method. Math. Program., 109 (2&ndash;3, Ser. B): 505&ndash;524, 2007</p>
+<p><img class="eq" src="eqs/2708305882951756665-130.png" alt="^{[1]}" style="vertical-align: --2px" />. Q. Zhao, S.E. Karisch, F. Rendl, and H. Wolkowicz. <i>Semidefinite programming relaxations for the quadratic assignment problem</i>, J. Combinatorial Optimization, 2(1): 71&ndash;109, 1998.</p>
+<p><img class="eq" src="eqs/2708306882823756034-130.png" alt="^{[2]}" style="vertical-align: --2px" />. F. Rendl and R. Sotirov. Bounds for the quadratic assignment problem using the bundle method. Math. Program., 109 (2&ndash;3, Ser. B): 505&ndash;524, 2007</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-generated 2017-08-25, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+generated 2019-09-22, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
 </div>
 </div>
 </div> <!-- Yangyang: "wrapper" class for new style -->
