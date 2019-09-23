@@ -24,7 +24,7 @@
 <div id="layout-content">
 <div id="toptitle">
 <h1>Learning circulant sensing kernels</h1>
-<div id="subtitle"><i><a href="https://xu-yangyang.github.io">Yangyang Xu</a>, <a href="http://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a>, and <a href="http://www.math.ucla.edu/~sjo/">Stanley Osher</a></i></div>
+<div id="subtitle"><i><a href="https://xu-yangyang.github.io">Yangyang Xu</a>, <a href="https://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a>, and <a href="https://www.math.ucla.edu/~sjo/">Stanley Osher</a></i></div>
 </div>
 <h2>Background</h2>
 <p>In signal acquisition, Toeplitz and circulant matrices are widely used as sensing operators. They correspond
@@ -43,7 +43,7 @@ well as through physical optical experiments.</p>
 <div class="eqwl"><img class="eqwl" src="eqs/8011618441022816781-130.png" alt=" mathop{mathrm{minimize}}_{mathcal{G}} |mathcal{Q}^*mathcal{G}^*mathcal{G}mathcal{Q}-mathcal{I}|^2 " />
 <br /></div><p>where <img class="eq" src="eqs/2325741352974071641-130.png" alt="mathcal{G}=mathcal{P}_Omegamathcal{C}_2" style="vertical-align: -3px" />, <img class="eq" src="eqs/8578670002092438653-130.png" alt="mathcal{C}_2" style="vertical-align: -3px" /> is a 2D circulant operator, and <img class="eq" src="eqs/6631946050023744508-130.png" alt="mathcal{P}_Omega" style="vertical-align: -3px" /> is a downsampling operator.</p>
 <p>The above learning processes are carried out in two steps. The first step learns a circulant matrix/operator, and the second step learns a downsampling matrix/operator. Learning a circulant matrix/operator is equivalent to learning a kernel, and thus it can be easily done. The two steps can be repeated many times. However, the optimization problem about the downsamplers is difficult. We only perform the two steps one time. One can also choose <img class="eq" src="eqs/10240030801-130.png" alt="P" style="vertical-align: -0px" /> or <img class="eq" src="eqs/6631946050023744508-130.png" alt="mathcal{P}_Omega" style="vertical-align: -3px" /> randomly, which works well on signals without dominating frequency.</p>
-<p>In addition, we learn <img class="eq" src="eqs/5161677540956415856-130.png" alt="Psi" style="vertical-align: -1px" /> and <img class="eq" src="eqs/5161677540983415935-130.png" alt="Phi" style="vertical-align: -1px" /> simultaneously by alternatively updating them. The coupled learning method can be found in <i>Algorithm 2</i> of our <a href="http://www.caam.rice.edu/~wy1/paperfiles/Rice_CAAM_TR12-05_Learn_Circ_Mtx.PDF">report</a>.</p>
+<p>In addition, we learn <img class="eq" src="eqs/5161677540956415856-130.png" alt="Psi" style="vertical-align: -1px" /> and <img class="eq" src="eqs/5161677540983415935-130.png" alt="Phi" style="vertical-align: -1px" /> simultaneously by alternatively updating them. The coupled learning method can be found in <i>Algorithm 2</i> of our <a href="https://www.aimsciences.org/article/doi/10.3934/ipi.2014.8.901">paper</a>.</p>
 <h2>Selected numerical results</h2>
 <ul>
 <li><p>Results of tests using Gaussian random basis (left) and Fourier basis (right) as the sparsify basis <img class="eq" src="eqs/5161677540956415856-130.png" alt="Psi" style="vertical-align: -1px" /></p>
@@ -88,7 +88,7 @@ well as through physical optical experiments.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-generated 2019-09-19, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+generated 2019-09-22, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
 </div>
 </div>
 </div> <!-- Yangyang: "wrapper" class for new style -->
