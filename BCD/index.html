@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="../images/RPI.png" type="image/png" />
+<title>The block-coordinate descent method for nonconvex optimization</title>
+<!-- Yangyang: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-61771387-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
+<div id="layout-content">
+<div id="toptitle">
+<h1>The block-coordinate descent method for nonconvex optimization</h1>
+<div id="subtitle"><i><a href="https://xu-yangyang.github.io">Yangyang Xu</a> and <a href="https://www.math.ucla.edu/~wotaoyin/">Wotao Yin</a></i></div>
+</div>
+<h2>Background</h2>
+<p>The block-coordinate update (BCU) method solves the problem in the form of</p>
+
+<div class="eqwl"><img class="eqwl" src="eqs/5019370749646225587-130.png" alt=" min_{mathbf{x}_1,ldots,mathbf{x}_s} f(mathbf{x}_1,ldots,mathbf{x}_s),~mathrm{subject~to}~(mathbf{x}_1,ldots,mathbf{x}_s)inmathcal{X} " />
+<br /></div><p>by updating just one or a few blocks of variables at a time, rather than updating all the blocks together (the batch update). The order of update can be deterministic or stochastic. The deterministic orders can be eithr cyclic or greedy according to a certain rank.</p>
+<p>The main advantage is that updating one or just a few blocks of variables are computationally much cheaper than the batch update. On the other hand, convergence requires more stringent conditions and typically takes more iterations.</p>
+<p>The update applied to each block can be exact minimization over the block or take different forms of inexact updates such as</p>
+<ul>
+<li><p>one or a few gradient descent steps,</p>
+</li>
+</ul>
+<ul>
+<li><p>one or a few projected gradient descent steps,</p>
+</li>
+</ul>
+<ul>
+<li><p>one or a few (preconditioned) CG steps,</p>
+</li>
+</ul>
+<ul>
+<li><p>prox-linear update,</p>
+</li>
+</ul>
+<ul>
+<li><p>more &hellip;</p>
+</li>
+</ul>
+<p>There is a tradeoff between the per-update complexity and the progress of overall minimization.</p>
+<p>BCU is a generalization to the following classic methods:</p>
+<ul>
+<li><p>alternating minimization (of a function in the form of <img class="eq" src="eqs/8115667160912225338-130.png" alt="f(mathbf{x}_1,mathbf{x}_2)" style="vertical-align: -4px" />)</p>
+</li>
+<li><p>alternating projection (to find a point in the intersection of two convex sets <img class="eq" src="eqs/8578670002092438656-130.png" alt="mathcal{C}_1" style="vertical-align: -3px" /> and <img class="eq" src="eqs/8578670002092438653-130.png" alt="mathcal{C}_2" style="vertical-align: -3px" /> by alternatingly projecting onto <img class="eq" src="eqs/8578670002092438656-130.png" alt="mathcal{C}_1" style="vertical-align: -3px" /> and <img class="eq" src="eqs/8578670002092438653-130.png" alt="mathcal{C}_2" style="vertical-align: -3px" />)</p>
+</li>
+<li><p>(block) coordinate minimization (of a function in the form of <img class="eq" src="eqs/4353895849308140998-130.png" alt="f(mathbf{x}_1,ldots,mathbf{x}_s)" style="vertical-align: -4px" />)</p>
+</li>
+<li><p>(block) coordinate gradient descent (of a function in the form of <img class="eq" src="eqs/4353895849308140998-130.png" alt="f(mathbf{x}_1,ldots,mathbf{x}_s)" style="vertical-align: -4px" />)</p>
+</li>
+</ul>
+<h2>Motivation and the Proposed Method</h2>
+<p>It is challenging to establish the global convergence of BCU for optimization problems that are nonconvex and/or nonsmooth. In general, either nonconvexity or nonsmoothness can cause BCU to stagnate at a non-stationary point.</p>
+<p>To establish global convergence, we assume that the non-smooth part of the objective is block-separable, namely, the non-smooth part can be written as <img class="eq" src="eqs/3152318105733646685-130.png" alt="sum_{i=1}^s r_i(mathbf{x}_i)" style="vertical-align: -6px" />. A differentiable part of the objective exist to couple all blocks together. Many interesting applications have this structure; see below. We propose a BCU algorithm with three different block-update schemes; the choice for each block is independent of others. Under certain conditions, we show that any limit point satisfies the Nash equilibrium conditions (a generalization to stationarity). Furthermore, global convergence and asymptotic convergence rate are established for problems obeying the Kurdyka-Lojasiewicz inequality.</p>
+<h2>Applications</h2>
+<ul>
+<li><p>Nonnegative matrix/tensor factorization</p>
+</li>
+</ul>
+<ul>
+<li><p>Nonnegative matrix/tensor completion (reconstruction from incomplete observations)</p>
+</li>
+</ul>
+<ul>
+<li><p>Hyperspectral data analysis</p>
+</li>
+</ul>
+<ul>
+<li><p>Sparse dictioanry learning</p>
+</li>
+</ul>
+<ul>
+<li><p>Blind source separation</p>
+</li>
+</ul>
+<ul>
+<li><p>Any multi-convex problems, where the feasible set and objective function are generally non-convex but convex in each block of variables.</p>
+</li>
+</ul>
+<h2>Tested problem sets</h2>
+<ul>
+<li><p>Synthetic nonnegative matrices (factorization / completion)</p>
+</li>
+</ul>
+<ul>
+<li><p>Synthetic nonnegative tensor (factorization / completion)</p>
+</li>
+</ul>
+<ul>
+<li><p>CBCL and ORL image databases</p>
+</li>
+</ul>
+<ul>
+<li><p>Hyperspectral data</p>
+</li>
+</ul>
+<h2>Matlab codes and demos</h2>
+<ul>
+<li><p><a href="../codes/NMF.zip">nonnegative matrix decomposition</a></p>
+</li>
+</ul>
+<ul>
+<li><p><a href="../codes/NMFC.zip">nonnegative matrix decomposition from partial observations</a></p>
+</li>
+</ul>
+<ul>
+<li><p><a href="../codes/NCP.zip">nonnegative tensor decomposition (CANDECOMP/PARAFAC)</a></p>
+</li>
+</ul>
+<ul>
+<li><p><a href="../codes/NCPC.zip">nonnegative tensor decomposition (CANDECOMP/PARAFAC) from partial observations</a></p>
+</li>
+</ul>
+<ul>
+<li><p><a href="../codes/NTD.zip">nonnegative tensor decomposition (Tucker)</a></p>
+</li>
+</ul>
+<h2>Citations</h2>
+<ul>
+<li><p><i>Y. Xu and W. Yin</i>, A block coordinate descent method for regularized multiconvex optimization with applications to nonnegative tensor factorization and completion, SIAM Journal on Imaging Sciences, 6(3), 1758-1789, 2013.</p>
+</li>
+<li><p><i>Y. Xu</i>. Alternating proximal gradient method for sparse nonnegative Tucker decomposition. Mathematical Programming Computation, 7(1), 39&ndash;70, 2015.</p>
+</li>
+<li><p><i>Y. Xu and W. Yin</i>. A globally convergent algorithm for nonconvex optimization based on block coordinate update. Journal of Scientific Computing, 72(2), 700&ndash;734, 2017.</p>
+</li>
+</ul>
+</div>
+<div id="footer">
+<div id="footer-text">
+generated 2019-09-22, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- Yangyang: "wrapper" class for new style -->
+</body>
+</html>
