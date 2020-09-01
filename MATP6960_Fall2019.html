@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="images/RPI.png" type="image/png" />
+<title>Stochastic Optimization Methods, Fall 2019</title>
+<!-- Yangyang: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-61771387-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
+<table summary="Table for page layout." id="tlayout">
+<tr valign="top">
+<td id="layout-menu">
+<!-- Yangyang: added for the "menu-box" style -->
+<div class="menu-box">
+<div class="menu-category">Yangyang Xu</div>
+<div class="menu-item"><a href="index.html">Home</a></div>
+<div class="menu-item"><a href="bio.html">Biography</a></div>
+<!-- Yangyang: added for the "menu-box" style -->
+</div>
+<!-- Yangyang: added for the "menu-box" style -->
+<div class="menu-box">
+<div class="menu-category">Research</div>
+<div class="menu-item"><a href="research.html">Summary</a></div>
+<div class="menu-item"><a href="papers.html">Papers</a></div>
+<div class="menu-item"><a href="people.html">People</a></div>
+<div class="menu-item"><a href="seminar.html">Group&nbsp;meeting</a></div>
+<div class="menu-item"><a href="talks.html">Talks</a></div>
+<div class="menu-item"><a href="software.html">Software</a></div>
+<!-- Yangyang: added for the "menu-box" style -->
+</div>
+<!-- Yangyang: added for the "menu-box" style -->
+<div class="menu-box">
+<div class="menu-category">Teaching</div>
+<div class="menu-item"><a href="MATP6960.html" class="current">Stochastic&nbsp;Optimization</a></div>
+<div class="menu-item"><a href="MATH6490.html">Large-scale&nbsp;Optimization</a></div>
+<div class="menu-item"><a href="MATP6600.html">Nonlinear&nbsp;Programming</a></div>
+<div class="menu-item"><a href="MATP6610.html">Computational&nbsp;Optimization</a></div>
+<!-- Yangyang: added for the "menu-box" style -->
+</div>
+<!-- Yangyang: added for the "menu-box" style -->
+<div class="menu-box">
+<div class="menu-category">Links</div>
+<div class="menu-item"><a href="MathInstitutes.html">Math&nbsp;Institutes</a></div>
+<div class="menu-item"><a href="Conferences.html">Conferences</a></div>
+<!-- Yangyang: added for the "menu-box" style -->
+</div>
+</td>
+<td id="layout-content">
+<div id="toptitle">
+<h1>Stochastic Optimization Methods, Fall 2019</h1>
+</div>
+<p><a href="teach/MATP6960/course_outline.pdf">Course Outline</a></p>
+<h3>Time and location</h3>
+<p><b>Time:</b> Tuesday, Friday 12:00 - 1:50pm </p>
+<p><b>Location:</b> JRSC 1W01</p>
+<h3>Instructor</h3>
+<p><a href="https://xu-yangyang.github.io">Yangyang Xu</a></p>
+<p><b>Office:</b> Amos Eaton 310</p>
+<p><b>Office hour:</b> TF 3:00pm - 4:00pm or by appointment</p>
+<p><b>Email:</b> xuy21@rpi.edu</p>
+<h3>Programming assignments</h3>
+<ul>
+<li><p>Assignment 1: <a href="teach/MATP6960/RPCA.pdf">robust PCA</a> (due on Sep-27-2019)</p>
+</li>
+</ul>
+<ul>
+<li><p>Assignment 2: <a href="teach/MATP6960/LassoAndNMF.pdf">LASSO and NMF</a> (due on Oct-18-2019)</p>
+</li>
+</ul>
+<ul>
+<li><p>Assignment 3: <a href="teach/MATP6960/HingeLossSVM.pdf">L2 SVM</a> (due on Nov-01-2019)</p>
+</li>
+</ul>
+<ul>
+<li><p>Assignment 4: <a href="teach/MATP6960/LogisticReg.pdf">LogReg</a> (due on Nov-15-2019)</p>
+</li>
+</ul>
+<h3>Reading materials </h3>
+<ul>
+<li><p><a href="https://epubs.siam.org/doi/abs/10.1137/080716542">A fast iterative shrinkage-thresholding algorithm for linear inverse problems</a>, Beck and Teboulle, 2009. </p>
+</li>
+<li><p><a href="https://link.springer.com/article/10.1007/s10107-012-0629-5">Gradient methods for minimizing composite functions</a>, Nesterov, 2013.</p>
+</li>
+<li><p><a href="https://epubs.siam.org/doi/abs/10.1137/130921428?casa_token=Za0ET3pC2E0AAAAA:QJKcsK53EqD6Fl7MO9XThkcRQvX8tDOhDU_iNIf3gUlHLn3D3eBJdE5PWU3k_n-EecvEqm7wl-CXtw">Proximal Newton-type methods for convex optimization</a>, Lee, Sun, and Saunders, 2014.</p>
+</li>
+<li><p><a href="https://epubs.siam.org/doi/abs/10.1137/100802001">Efficiency of Coordinate Descent Methods on Huge-Scale Optimization Problems</a>, Nesterov, 2012.</p>
+</li>
+<li><p><a href="https://academic.oup.com/imajna/article/39/3/1246/5060522/">Random permutations fix a worst case for cyclic coordinate descent</a>, Lee and Wright, 2019.</p>
+</li>
+<li><p><a href="https://link.springer.com/article/10.1007/s10589-018-0037-8">Asynchronous parallel primal-dual block coordinate update methods for affinely constrained convex programs</a>, Xu, 2019. </p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1610.00040">A Primer on Coordinate Descent Algorithms</a>, Shi, Tu, Xu, and Yin, 2016. </p>
+</li>
+<li><p><a href="http://www.jmlr.org/papers/volume14/shalev-shwartz13a/shalev-shwartz13a.pdf">Stochastic Dual Coordinate Ascent Methods for Regularized Loss Minimization</a>, Shalev-Shwartz and Zhang, 2013.</p>
+</li>
+<li><p><a href="https://epubs.siam.org/doi/abs/10.1137/140961791">A proximal stochastic gradient method with progressive variance reduction</a>, Xiao and Zhang, 2014.</p>
+</li>
+<li><p><a href="http://papers.nips.cc/paper/5258-saga-a-fast-incremental-gradient-method-with-support-for-non-strongly-convex-composite-objectives">SAGA: A Fast Incremental Gradient Method With Support for Non-Strongly Convex Composite Objectives</a>, Defazio, Bach, and Lacoste-Julien, 2014.</p>
+</li>
+<li><p><a href="https://link.springer.com/article/10.1007/s10107-016-1030-6">Minimizing finite sums with the stochastic average gradient</a>, Schmidt, Roux, and Bach, 2017.</p>
+</li>
+<li><p><a href="https://dl.acm.org/citation.cfm?id=3305951">SARAH: a novel method for machine learning problems using stochastic recursive gradient</a>, Nguyen, Liu, Scheinberg, and Takac, 2017.</p>
+</li>
+<li><p><a href="https://papers.nips.cc/paper/5034-variance-reduction-for-stochastic-gradient-optimization">Variance Reduction for Stochastic Gradient Optimization</a>, Wang, Chen, Smola, and Xing, 2013.</p>
+</li>
+<li><p><a href="https://epubs.siam.org/doi/abs/10.1137/140983938">Block stochastic gradient iteration for convex and nonconvex optimization</a>, Xu and Yin, 2015.</p>
+</li>
+<li><p><a href="https://link.springer.com/article/10.1007/s00041-008-9030-4">A randomized Kaczmarz algorithm with exponential convergence</a>, Strohmer and Vershynin, 2008.</p>
+</li>
+<li><p><a href="https://link.springer.com/article/10.1007/s11075-011-9451-z">Acceleration of randomized Kaczmarz method via the Johnson–Lindenstrauss Lemma</a>, Eldar and Needell, 2011.</p>
+</li>
+<li><p><a href="https://epubs.siam.org/doi/abs/10.1137/10079923X">On the Use of Stochastic Hessian Information in Optimization Methods for Machine Learning</a>, Byrd, Chin, Neveitt, and Nocedal, 2011.</p>
+</li>
+<li><p><a href="https://epubs.siam.org/doi/abs/10.1137/140954362">A stochastic quasi-Newton method for large-scale optimization</a>, Byrd, Hansen, Nocedal, and Singer, 2016.</p>
+</li>
+<li><p><a href="https://link.springer.com/article/10.1007/s10208-015-9296-2">Random Gradient-Free Minimization of Convex Functions</a>, Nesterov and Spokoiny, 2017.</p>
+</li>
+<li><p><a href="http://proceedings.mlr.press/v28/jaggi13.html">Revisiting Frank-Wolfe: Projection-Free Sparse Convex Optimization</a>, Jaggi, 2013.</p>
+</li>
+<li><p><a href="https://link.springer.com/article/10.1007/s10107-014-0778-9">Conditional gradient algorithms for norm-regularized smooth convex optimization</a>, Harchaoui, Juditsky, and Nemirovski, 2015.</p>
+</li>
+<li><p><a href="https://link.springer.com/article/10.1007/s10107-019-01425-9">Iteration complexity of inexact augmented Lagrangian methods for constrained convex programming</a>, Xu, 2019.</p>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<div id="footer">
+<div id="footer-text">
+generated 2019-12-05, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- Yangyang: "wrapper" class for new style -->
+</body>
+</html>
