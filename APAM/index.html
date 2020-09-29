@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<link rel="icon" href="../images/RPI.png" type="image/png" />
+<title>APAM: asynchronous parallel adaptive stochastic gradient method</title>
+<!-- Yangyang: latest Google Analytics script -->
+<script type="text/javascript">
+  var _gaq = [];
+  _gaq.push(['_setAccount', 'UA-61771387-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+<div class="wrapper"> <!-- Yangyang: "wrapper" class for new style -->
+<div id="layout-content">
+<div id="toptitle">
+<h1>APAM: asynchronous parallel adaptive stochastic gradient method</h1>
+<div id="subtitle"><i><a href="https://xu-yangyang.github.io">Yangyang Xu</a>, Colin Sutcher-Shepard, Yibo Xu, and <a href="https://jiechenjiechen.github.io/">Jie Chen</a></i></div>
+</div>
+<h2>Background</h2>
+<p>Adaptive stochastic gradient methods (SGMs), such as AdaGrad, Adam, and AMSGrad, have become very popular due to their great success in training deep learning models.
+These adaptive SGMs can practically be significantly faster than a classic non-adaptive SGM. We aim at speeding up adaptive SGMs on massively parallel and distributed computing resources. One way is to parallelize them in a synchronous (sync) way by using a large batch size, in order to obtain high parallelization speed-up. However, large-batch training in deep learning can often lead to worse generalization than small-batch training. To simultaneously gain fast convergence, high parallelization speed-up, and also good generalization, we propose to develop asynchronous (async) parallel adaptive SGMs.</p>
+<h2>Algorithm</h2>
+<p>Our algorithm, named as APAM, is designed under both shared-memory and distributed settings. For both settings, we adopt a master-worker architecture; see the illustration in Figure 1 below. APAM can be viewed as the async-parallel version of AMSGrad, due to the good theoretical and also practical performance. From the master's view, the pseudocode is shown in Algorithm 1 below.</p>
+<table class="imgtable" align="center"><tr><td>
+<img src="shared_distributed.png" alt="" width="800px" />&nbsp;</td>
+<td></td></tr></table>
+<table class="imgtable" align="center"><tr><td>
+<img src="APAM.png" alt="" width="800px" />&nbsp;</td>
+<td></td></tr></table>
+<h2>Numerical results</h2>
+<p>We compare APAM to its synchronous counterpart and an async-parallel non-adaptive SGM for training the LeNet5 network on <i>FashionMNIST</i> data set. The sync-parallel adaptive method  achieves very low parallelization speed-up, while APAM can achieve significantly higher speed-up. In addition, APAM inherits the fast convergence of adaptive stochastic gradient method and can yield higher prediction accuracy than the async-parallel non-adaptive SGM. </p>
+<table class="imgtable" align="center"><tr><td>
+<img src="APAM_sync.png" alt="" width="800px" />&nbsp;</td>
+<td></td></tr></table>
+<table class="imgtable" align="center"><tr><td>
+<img src="APAM_SGD.png" alt="" width="800px" />&nbsp;</td>
+<td></td></tr></table>
+<h2>Code</h2>
+<p><a href="https://github.com/RPI-OPT/APAM">source code and instruction</a></p>
+<h2>Citation</h2>
+<p><i>Yangyang Xu, C. Sutcher-Shepard, Yibo Xu and J. Chen</i>. <a href="https://arxiv.org/pdf/2002.09095.pdf">Asynchronous parallel adaptive stochastic gradient methods</a>. arXiv:2002.09095</p>
+</div>
+<div id="footer">
+<div id="footer-text">
+generated 2020-09-28, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+</div>
+</div>
+</div> <!-- Yangyang: "wrapper" class for new style -->
+</body>
+</html>
