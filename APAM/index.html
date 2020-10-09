@@ -38,12 +38,12 @@ These adaptive SGMs can practically be significantly faster than a classic non-a
 <img src="APAM.png" alt="" width="800px" />&nbsp;</td>
 <td></td></tr></table>
 <h2>Numerical results</h2>
-<p>We compare APAM to its synchronous counterpart and an async-parallel non-adaptive SGM for training the LeNet5 network on <i>FashionMNIST</i> data set. The sync-parallel adaptive method  achieves very low parallelization speed-up, while APAM can achieve significantly higher speed-up. In addition, APAM inherits the fast convergence of adaptive stochastic gradient method and can yield higher prediction accuracy than the async-parallel non-adaptive SGM. </p>
+<p>We compare APAM to an async-parallel non-adaptive SGM for training the LeNet5 network on <i>MNIST</i> data set, and also to its synchronous counterpart for training an AllCNN network on <i>Cifar10</i> data set. The sync-parallel adaptive method  achieves very low parallelization speed-up, while APAM can achieve significantly higher speed-up. In addition, APAM inherits the fast convergence of adaptive stochastic gradient method and can yield higher prediction accuracy than the async-parallel non-adaptive SGM. </p>
 <table class="imgtable" align="center"><tr><td>
-<img src="APAM_sync.png" alt="" width="800px" />&nbsp;</td>
+<img src="APAM_SGD.png" alt="" width="500px" />&nbsp;</td>
 <td></td></tr></table>
 <table class="imgtable" align="center"><tr><td>
-<img src="APAM_SGD.png" alt="" width="800px" />&nbsp;</td>
+<img src="APAM_sync.png" alt="" width="500px" />&nbsp;</td>
 <td></td></tr></table>
 <h2>Code</h2>
 <p><a href="https://github.com/xu-yangyang/APAM">source code and instruction</a></p>
@@ -52,7 +52,7 @@ These adaptive SGMs can practically be significantly faster than a classic non-a
 </div>
 <div id="footer">
 <div id="footer-text">
-generated 2020-09-28, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+generated 2020-10-08, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
 </div>
 </div>
 </div> <!-- Yangyang: "wrapper" class for new style -->
