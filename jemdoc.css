@@ -1,4 +1,4 @@
-/* css file for jemdoc made by Wotao Yin. */
+/* css file for jemdoc made by Yangyang Xu */
 
 body {
 	background: white;
@@ -457,4 +457,29 @@ img {
 table.imgtable, table.imgtable td {
     border: none;
     text-align: left;
+}
+
+/* members */
+div#member-container{
+    text-align: center;
+}
+div#member{
+    display: inline-block;
+    vertical-align: top;
+    width: 250px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+div#member img{
+    width: 230px;
+    margin: 0px;
+    padding: 0px;
+}
+
+div#member p{
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
 }
