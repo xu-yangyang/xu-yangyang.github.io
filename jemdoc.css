@@ -473,6 +473,8 @@ div#member{
 }
 
 div#member img{
+
+    height: 230px;
     width: 230px;
     margin: 0px;
     padding: 0px;
