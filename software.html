@@ -61,6 +61,15 @@
 <div id="toptitle">
 <h1>Software packages</h1>
 </div>
+<h3>Stochastic inertial-accelerated methods with delayed derivatives</h3>
+<ul>
+<li><p>On solving weakly-convex stochastic optimization in a distributed setting, we propose a  stochastic inertial-accelerated method, which can have guaranteed convergence even outdated derivative information is used during the update. The information delay can slow down the convergence speed, but the effect will diminish with the number of updates for composite smooth problems. Empirically, the inertial acceleration can significantly speed up the convergence, as compared to a non-accelerated counterpart. Moreover, the asynchronous update can yield significantly higher parallelization speedup than the synchronous counterpart.</p>
+</li>
+</ul>
+<ul>
+<li><p><a href="https://github.com/RPI-OPT/Inertial-SsGM">GitHub code</a></p>
+</li>
+</ul>
 <h3>APAM: asynchronous parallel adaptive stochastic gradient method</h3>
 <ul>
 <li><p>We propose APAM, an asynchronous parallel adaptive stochastic gradient method, for solving stochastic optimization problems. Adaptive stochastic gradient methods (e.g., Adam, AMSGrad) have been extensively used in training deep learning models. They often have significantly faster convergence than a non-adaptive method. By asynchronous parallel computing, APAM can achieve near-linear speed-up on top of the already-fast-convergent adaptive method.</p>
@@ -155,7 +164,7 @@
 </table>
 <div id="footer">
 <div id="footer-text">
-generated 2022-02-16, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
+generated 2022-08-31, by <a href="http://jemdoc.jaboc.net/">jemdoc</a> (modified)
 </div>
 </div>
 </div> <!-- Yangyang: "wrapper" class for new style -->
